@@ -1,0 +1,118 @@
+---
+import { faqs } from '../../data/site';
+---
+
+<section class="faq">
+  <h2 data-a="split" class="faq__title">Pytania</h2>
+  <div class="faq__list" data-faq>
+    {faqs.map(([q, a], i) => (
+      <div class="faq__item">
+        <h3 class="faq__h">
+          <button type="button" class="faq__q" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`faq-${i}`} id={`faq-q-${i}`}>
+            <span>{q}</span>
+            <span class="faq__sign" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="faq__a" id={`faq-${i}`} role="region" aria-labelledby={`faq-q-${i}`} hidden={i !== 0}>
+          <div class="faq__a-in">{a}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 72px 32px 96px;
+  }
+
+  @media (max-width: 600px) {
+    .faq {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  .faq__title {
+    margin: 0 0 32px;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 52px);
+    letter-spacing: -0.03em;
+  }
+
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .faq__h {
+    margin: 0;
+    font: inherit;
+  }
+
+  .faq__q {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 0;
+    background: none;
+    border: 0;
+    color: var(--fg);
+    text-align: left;
+    cursor: pointer;
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  /* Plus, który obraca się w minus */
+  .faq__sign {
+    position: relative;
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 4px;
+  }
+
+  .faq__sign::before,
+  .faq__sign::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    margin-top: -1px;
+    background: var(--accent);
+    border-radius: 1px;
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .faq__sign::after {
+    transform: rotate(90deg);
+  }
+
+  .faq__q[aria-expanded='true'] .faq__sign::after {
+    transform: rotate(0deg);
+  }
+
+  .faq__a {
+    overflow: hidden;
+  }
+
+  .faq__a-in {
+    padding: 0 0 24px;
+    color: var(--soft);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 720px;
+  }
+</style>

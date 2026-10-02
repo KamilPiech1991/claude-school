@@ -1,0 +1,199 @@
+---
+---
+
+<section class="wrap section redpen">
+  <div data-a="reveal" class="redpen__copy">
+    <div class="eyebrow" data-a="scramble">Jak wyglądają zajęcia</div>
+    <h2 class="h2" data-a="split">
+      Poprawiamy jak w szkole.
+      <span class="hand redpen__hand">
+        Czerwonym długopisem.
+        <svg class="redpen__underline" viewBox="0 0 300 18" preserveAspectRatio="none" aria-hidden="true">
+          <path data-a="draw-scroll" d="M4 12 C 60 4, 140 4, 200 9 S 280 14, 296 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+        </svg>
+      </span>
+    </h2>
+    <p class="redpen__lede">
+      Przynosisz polecenie, którego naprawdę używasz. Trener poprawia je przy Tobie i tłumaczy każdą zmianę. Obok typowy przykład z pierwszej godziny kursu Claude od zera.
+    </p>
+  </div>
+  <div data-a="sheet" class="sheet">
+    <div class="sheet__margin"></div>
+    <div class="sheet__tape"></div>
+    <div class="sheet__label">Ćwiczenie 1 · mail do klienta</div>
+    <div class="sheet__line">
+      <span class="sheet__orig">Napisz maila do klienta o opóźnieniu.<span data-a="strike" class="sheet__strike"></span></span>
+    </div>
+    <div data-a="ink" class="sheet__q">Do kogo?</div>
+    <div data-a="ink" class="sheet__note">↳ kto pisze, do kogo, co się stało, jaki ton, co dalej?</div>
+    <div data-a="ink" class="sheet__fixed">
+      Jesteś kierownikiem projektu. Napisz do Anny z firmy Norex, że wdrożenie przesuwa się o 5 dni roboczych przez dodatkowe testy. Ton spokojny, jedno zdanie przeprosin. Zakończ propozycją krótkiej rozmowy w czwartek.
+    </div>
+    <div data-a="ink" class="sheet__note">teraz Claude wie, czego chcesz ✓</div>
+    <div data-a="grade" aria-label="Ocena 5" class="sheet__grade">5</div>
+  </div>
+</section>
+
+<style>
+  .redpen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 56px;
+    align-items: center;
+  }
+
+  .redpen__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .redpen__hand {
+    position: relative;
+    display: inline-block;
+    font-size: 1.15em;
+  }
+
+  .redpen__underline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.12em;
+    width: 100%;
+    height: 0.3em;
+    overflow: visible;
+  }
+
+  .redpen__lede {
+    margin: 0;
+    max-width: 480px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--soft);
+  }
+
+  /* Kartka z zeszytu wygląda tak samo w obu kierunkach */
+  .sheet {
+    position: relative;
+    background: #f7f3ea;
+    color: #1f2a44;
+    border-radius: 6px;
+    padding: 40px 36px 44px 124px;
+    transform: rotate(1.2deg);
+    box-shadow: var(--shadow-sheet);
+    background-image: repeating-linear-gradient(180deg, transparent 0 35px, #d9e2ef 35px 36px);
+    background-position: 0 18px;
+  }
+
+  .sheet__margin {
+    position: absolute;
+    left: 100px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e7a4a0;
+  }
+
+  .sheet__tape {
+    position: absolute;
+    top: -14px;
+    right: 48px;
+    width: 110px;
+    height: 30px;
+    background: var(--tape);
+    transform: rotate(-4deg);
+  }
+
+  .sheet__label {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: #7a8499;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 36px;
+  }
+
+  .sheet__line {
+    position: relative;
+    font-family: var(--f-mono);
+    font-size: 17px;
+    line-height: 36px;
+  }
+
+  .sheet__orig {
+    position: relative;
+  }
+
+  .sheet__strike {
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: 50%;
+    height: 3px;
+    background: #d93a2b;
+    border-radius: 2px;
+    transform: rotate(-1.5deg);
+  }
+
+  .sheet__q {
+    position: absolute;
+    left: 10px;
+    top: 84px;
+    width: 84px;
+    text-align: center;
+    font-family: var(--f-hand);
+    font-weight: 700;
+    font-size: 22px;
+    color: #d93a2b;
+    transform: rotate(-10deg);
+    line-height: 1;
+  }
+
+  .sheet__note {
+    font-family: var(--f-hand);
+    font-weight: 500;
+    font-size: 27px;
+    line-height: 36px;
+    color: #d93a2b;
+    padding-left: 12px;
+  }
+
+  .sheet__fixed {
+    font-family: var(--f-mono);
+    font-size: 15px;
+    line-height: 36px;
+    color: #1f2a44;
+  }
+
+  .sheet__grade {
+    position: absolute;
+    right: 28px;
+    bottom: 26px;
+    width: 84px;
+    height: 84px;
+    border: 3px solid #d93a2b;
+    border-radius: 50% 46% 52% 48%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--f-hand);
+    font-weight: 700;
+    font-size: 60px;
+    color: #d93a2b;
+    transform: rotate(-12deg);
+  }
+
+  @media (max-width: 600px) {
+    .sheet {
+      padding: 32px 20px 110px 64px;
+    }
+    .sheet__margin {
+      left: 48px;
+    }
+    .sheet__q {
+      left: -2px;
+      width: 50px;
+      font-size: 18px;
+    }
+  }
+</style>

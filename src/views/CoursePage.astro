@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import CourseHero from '../components/course/CourseHero.astro';
+import CourseBody from '../components/course/CourseBody.astro';
+import type { Course } from '../data/site';
+import type { Theme } from '../data/theme';
+
+interface Props {
+  theme: Theme;
+  course: Course;
+}
+
+const { theme, course } = Astro.props;
+---
+
+<Base theme={theme} title={`${course.name} – Claude School`} description={course.short}>
+  <main data-screen-label="Strona kursu">
+    <CourseHero course={course} theme={theme} />
+    <CourseBody course={course} theme={theme} />
+  </main>
+</Base>

@@ -1,0 +1,91 @@
+---
+const steps = [
+  'Analiza przed szkoleniem: które zadania w zespole oddać Claude',
+  'Ćwiczenia na Waszych dokumentach, z zasadami bezpieczeństwa danych',
+  'Konfiguracja Projektów i instrukcji dla całego zespołu',
+  'Raport po szkoleniu i 30 dni wsparcia trenera',
+];
+---
+
+<section id="firmy" class="wrap section">
+  <div data-a="reveal" class="b2b">
+    <div class="b2b__copy">
+      <div class="eyebrow" data-a="scramble">Dla firm</div>
+      <h2 class="b2b__title" data-a="split">Szkolenie zamknięte dla Twojego zespołu.</h2>
+      <p class="b2b__text">Program układamy pod Wasze procesy i dane. U Was w biurze, w naszej sali albo online.</p>
+      <a href="mailto:kontakt@claudeschool.pl?subject=Szkolenie%20zamkni%C4%99te" class="btn btn--accent b2b__btn" data-magnetic>Umów bezpłatną rozmowę</a>
+    </div>
+    <ol data-a="stagger" class="b2b__steps">
+      {steps.map((s, i) => (
+        <li class="b2b__step"><span class="b2b__n">{String(i + 1).padStart(2, '0')}</span><span>{s}</span></li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .b2b {
+    border: 1px solid var(--line);
+    border-radius: var(--r-xl);
+    padding: clamp(32px, 5vw, 64px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 48px;
+    background: var(--surface);
+  }
+
+  .b2b__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .b2b__title {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: clamp(36px, 4.4vw, 60px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .b2b__text {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--soft);
+  }
+
+  .b2b__btn {
+    align-self: flex-start;
+    font-size: 16px;
+    padding: 0 28px;
+  }
+
+  .b2b__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .b2b__step {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 17px;
+    line-height: 1.45;
+  }
+
+  .b2b__step:last-child {
+    border-bottom: 0;
+  }
+
+  .b2b__n {
+    font-family: var(--f-mono);
+    color: var(--accent);
+  }
+</style>

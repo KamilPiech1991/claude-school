@@ -1,0 +1,101 @@
+---
+import { trainers } from '../../data/site';
+---
+
+<section id="trenerzy" class="wrap section">
+  <h2 data-a="split" class="h2 trainers__title">Uczą ludzie, którzy pracują z Claude codziennie.</h2>
+  <div data-a="stagger" class="trainers">
+    {trainers.map((t) => (
+      <div class="trainer" data-a="tilt">
+        <div class="trainer__photo">
+          <div class="trainer__img"></div>
+          <div class="trainer__cap">portret trenera</div>
+          <div class="trainer__role">{t.role}</div>
+        </div>
+        <div class="trainer__txt">
+          <div class="trainer__name">{t.name}</div>
+          <div class="trainer__bio">{t.bio}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .trainers__title {
+    margin-bottom: 40px;
+    max-width: 760px;
+  }
+
+  .trainers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 20px;
+    perspective: 900px;
+  }
+
+  .trainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transform-style: preserve-3d;
+  }
+
+  .trainer__photo {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--line-card);
+  }
+
+  .trainer__img {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(135deg, var(--stripe-1) 0 10px, var(--stripe-2) 10px 20px);
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .trainer:hover .trainer__img {
+    transform: scale(1.04);
+  }
+
+  .trainer__cap {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .trainer__role {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    background: var(--fg);
+    color: var(--bg);
+    border-radius: var(--r-pill);
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .trainer__txt {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .trainer__name {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 24px;
+  }
+
+  .trainer__bio {
+    font-size: 15px;
+    color: var(--muted-2);
+    line-height: 1.5;
+  }
+</style>

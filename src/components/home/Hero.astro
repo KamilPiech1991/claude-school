@@ -1,0 +1,390 @@
+---
+import { courseById, sessions, seatsShort } from '../../data/site';
+import type { Theme } from '../../data/theme';
+
+interface Props {
+  theme: Theme;
+}
+
+const { theme } = Astro.props;
+const next = sessions[0]!;
+const nextCourse = courseById(next.course);
+const words = ['Nie', 'ucz', 'się', 'o', 'AI.', 'Naucz', 'się', 'z', 'nim'];
+const stampId = `stampCircle-${theme}`;
+---
+
+<section class="wrap hero">
+  <div class="hero__copy">
+    <div data-a="fade" class="pill">
+      <span data-a="pulse" class="pill__dot"></span>Nowe terminy: październik – grudzień 2026
+    </div>
+    <h1 class="h1">
+      {words.map((w) => <><span class="mask"><span data-a="word">{w}</span></span>{' '}</>)}
+      <span class="mask" style="padding-right:.08em"><span data-a="word" class="h1__accent">pracować.</span></span>
+    </h1>
+    <p data-a="fade" class="hero__lead">
+      Szkolenia z Claude na sali i online na żywo. Pracujesz na własnych zadaniach, z trenerem obok. Wychodzisz z gotowym warsztatem pracy, a nie z plikiem notatek.
+    </p>
+    <div data-a="fade" class="hero__ctas">
+      <a href="#terminy" class="btn btn--accent" data-magnetic>Zobacz terminy</a>
+      <a href="#lekcja" class="btn btn--ghost" data-magnetic>Pierwsza lekcja za 0 zł</a>
+    </div>
+    <div data-a="fade" aria-hidden="true" class="note">
+      <svg width="40" height="34" viewBox="0 0 40 34" fill="none" class="note__arrow">
+        <path data-a="draw" d="M36 30 C 24 28, 10 22, 6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        <path data-a="draw" d="M2 10 L6 3 L12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <span>tak, na Twoich plikach z pracy</span>
+    </div>
+  </div>
+
+  <div class="hero__art" data-a="tiltzone">
+    <div data-a="card" class="photo" data-depth="0.4">
+      <div data-a="parallax" class="stripes"></div>
+      <div class="photo__cap">zdjęcie: trener przy stole z uczestnikami, ekran z Claude w tle</div>
+    </div>
+
+    <div aria-hidden="true" class="stamp" data-depth="1.6">
+      <div class="stamp__bg"></div>
+      <svg data-a="spin" viewBox="0 0 136 136" width="136" height="136" class="stamp__ring">
+        <defs><path id={stampId} d="M68,68 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"></path></defs>
+        <text><textPath href={`#${stampId}`}>ZAPISY OTWARTE ✳ JESIEŃ 2026 ✳ </textPath></text>
+      </svg>
+      <div class="stamp__txt">4h / 8h</div>
+    </div>
+
+    <div data-a="card" class="next" data-depth="1.2">
+      <div data-a="float" class="next__in">
+        <div class="next__label">Najbliższy termin</div>
+        <div class="next__date">
+          <span class="next__day" data-a="count" data-to={next.day}>{next.day}</span><span>{next.mon} · {next.weekday}</span>
+        </div>
+        <div class="next__course">{nextCourse.name}</div>
+        <div class="next__foot"><span>{next.format}</span><span class="next__seats">{seatsShort(next.seats)}</span></div>
+      </div>
+    </div>
+
+    <div data-a="card" class="term" data-depth="0.8">
+      <div data-a="float" class="term__in">
+        <div class="term__bar">
+          <i></i><i></i><i></i>
+          <span>ćwiczenie 3 · Twój raport kwartalny</span>
+        </div>
+        <div class="term__body">
+          <div class="bubble">
+            <span data-a="typed" data-text="Wyciągnij 5 wniosków dla zarządu. Każdy z liczbą i numerem strony.">Wyciągnij 5 wniosków dla zarządu. Każdy z liczbą i numerem strony.</span><span data-a="caret" class="caret"></span>
+          </div>
+          <div data-a="reply" class="reply"><span class="reply__n">1</span><span>Przychody +14% r/r, głównie segment B2B <span class="reply__src">· s. 4</span></span></div>
+          <div data-a="reply" class="reply"><span class="reply__n">2</span><span>Koszt pozyskania klienta niższy o 9% <span class="reply__src">· s. 7</span></span></div>
+          <div data-a="reply" class="reply"><span class="reply__n">3</span><span>Dwa regiony poniżej planu, oba w Q3 <span class="reply__src">· s. 11</span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: 72px;
+    padding-bottom: 56px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr));
+    gap: 56px;
+    align-items: center;
+  }
+
+  .hero__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--line-2);
+    border-radius: var(--r-pill);
+    padding: 8px 16px;
+    font-family: var(--f-mono);
+    font-size: 13px;
+    color: var(--soft);
+  }
+
+  .pill__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .h1 {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(52px, 7.2vw, 108px);
+    line-height: 0.95;
+    letter-spacing: var(--h1-track);
+  }
+
+  .h1__accent {
+    color: var(--accent);
+    font-style: var(--accent-style);
+    font-weight: 700;
+  }
+
+  .hero__lead {
+    margin: 0;
+    max-width: 540px;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--soft);
+    text-wrap: pretty;
+  }
+
+  .hero__ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: -8px;
+    padding-left: 180px;
+    font-family: var(--f-hand);
+    font-size: 26px;
+    line-height: 1;
+    color: var(--accent);
+    transform: rotate(-3deg);
+  }
+
+  .note__arrow {
+    flex: none;
+    margin-top: -10px;
+  }
+
+  @media (max-width: 600px) {
+    .note {
+      padding-left: 40px;
+    }
+  }
+
+  .hero__art {
+    position: relative;
+    min-height: 580px;
+  }
+
+  .photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 64px;
+    bottom: 150px;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    border: 1px solid var(--line-card);
+  }
+
+  .stripes {
+    position: absolute;
+    inset: -40px 0;
+    background: repeating-linear-gradient(135deg, var(--stripe-1) 0 10px, var(--stripe-2) 10px 20px);
+  }
+
+  .photo__cap {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    right: 20px;
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .stamp {
+    position: absolute;
+    right: -12px;
+    bottom: 170px;
+    width: 136px;
+    height: 136px;
+    z-index: 3;
+  }
+
+  .stamp__bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--fg);
+    box-shadow: var(--shadow-stamp);
+  }
+
+  .stamp__ring {
+    position: absolute;
+    inset: 0;
+  }
+
+  .stamp__ring text {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    letter-spacing: 2.6px;
+    fill: var(--bg);
+    text-transform: uppercase;
+  }
+
+  .stamp__txt {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--f-hand);
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--accent);
+    transform: rotate(-8deg);
+  }
+
+  .next {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    width: min(290px, 64%);
+  }
+
+  .next__in {
+    background: var(--fg);
+    color: var(--bg);
+    border-radius: var(--r-sm);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .next__label {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--card-muted);
+  }
+
+  .next__date {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 16px;
+  }
+
+  .next__day {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  .next__course {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .next__foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--line-3);
+    border-top: 1px solid var(--card-line);
+    padding-top: 12px;
+  }
+
+  .next__seats {
+    color: var(--hot);
+    font-weight: 600;
+  }
+
+  .term {
+    position: absolute;
+    left: 24px;
+    bottom: 0;
+    width: min(440px, 90%);
+  }
+
+  .term__in {
+    background: var(--terminal);
+    border: 1px solid var(--line-card);
+    border-radius: var(--r-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow-term);
+  }
+
+  .term__bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .term__bar i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--line-2);
+  }
+
+  .term__bar span {
+    margin-left: 8px;
+  }
+
+  .term__body {
+    padding: 18px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .bubble {
+    align-self: flex-end;
+    max-width: 85%;
+    background: var(--line);
+    border-radius: 14px 14px 4px 14px;
+    padding: 10px 14px;
+    min-height: 42px;
+  }
+
+  .caret {
+    display: inline-block;
+    width: 2px;
+    height: 15px;
+    background: var(--accent);
+    vertical-align: -2px;
+    margin-left: 2px;
+  }
+
+  .reply {
+    display: flex;
+    gap: 10px;
+    color: var(--soft-2);
+  }
+
+  .reply__n {
+    font-family: var(--f-mono);
+    color: var(--accent);
+  }
+
+  .reply__src {
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,517 @@
+---
+import { courses, sessions, zl, seatsShort, type Course } from '../../data/site';
+import { href, type Theme } from '../../data/theme';
+
+interface Props {
+  course: Course;
+  theme: Theme;
+}
+
+const { course, theme } = Astro.props;
+const h = course.defaultHours;
+const own = sessions.filter((s) => s.course === course.id);
+const others = courses.filter((c) => c.id !== course.id);
+---
+
+<section
+  class="wrap cbody"
+  data-course-page={course.id}
+  data-hours={h}
+  data-price={JSON.stringify(course.price)}
+>
+  <div class="cbody__main">
+    <div class="prog">
+      <h2 data-a="reveal" class="prog__title">Program · <span data-mod-count>{h} h</span></h2>
+      <ol class="mods" data-mods>
+        {course.modules.map(([t, d], i) => (
+          <li class="mod" data-extra={i >= 4 ? '' : undefined} hidden={i >= 4 && h === 4}>
+            <div class="mod__n">{String(i + 1).padStart(2, '0')}</div>
+            <div class="mod__txt"><div class="mod__t">{t}</div><div class="mod__d">{d}</div></div>
+            {i >= 4 ? <div class="mod__tag">tylko 8 h</div> : <div></div>}
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div data-a="stagger" class="boxes">
+      <div class="box">
+        <div class="box__title">Dla kogo</div>
+        {course.for.map((x) => <div class="box__item"><span class="box__mark">●</span><span>{x}</span></div>)}
+      </div>
+      <div class="box">
+        <div aria-hidden="true" class="box__stamp" data-a="stampin">ZALICZONE</div>
+        <div class="box__title">Wychodzisz z</div>
+        {course.out.map((x) => <div class="box__item"><span class="box__mark">✓</span><span>{x}</span></div>)}
+      </div>
+    </div>
+
+    <div data-a="reveal" class="others">
+      <div class="box__title">Zobacz też</div>
+      <div class="others__grid">
+        {others.map((o) => (
+          <a href={href(theme, `kursy/${o.id}/`)} class="other">
+            <span class="other__txt"><span class="other__no">{o.no}</span><span class="other__name">{o.name}</span></span>
+            <span class="other__go" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <aside class="signup" data-signup>
+    <div class="signup__head">
+      <div class="signup__title">Zapisy</div>
+      <div class="signup__price-wrap">
+        <div class="signup__price" data-price-label>{zl(course.price[h])}</div>
+        <div class="signup__per">netto / osoba · <span data-hours-label>{h} godzin</span></div>
+      </div>
+    </div>
+
+    <form class="signup__form" data-signup-form novalidate>
+      <div class="signup__step">1. Wybierz termin</div>
+      <div role="radiogroup" aria-label="Termin" class="sessions" data-sessions>
+        {own.map((s) => (
+          <button
+            type="button"
+            role="radio"
+            aria-checked="false"
+            class="sess"
+            data-session={s.id}
+            data-hours={s.hours}
+            data-label={`${s.day} ${s.mon}, ${s.format}`}
+            hidden={s.hours !== h}
+          >
+            <span class="sess__txt"><span class="sess__date">{s.day} {s.mon} · {s.weekday}</span><span class="sess__fmt">{s.format}, {s.time}</span></span>
+            <span class="sess__seats">{seatsShort(s.seats)}</span>
+          </button>
+        ))}
+      </div>
+      <div class="signup__empty" data-no-sessions hidden={own.some((s) => s.hours === h)}>
+        Brak terminów w tym wymiarze. Zmień wymiar albo zostaw e-mail, damy znać o nowej dacie.
+      </div>
+      <div class="signup__step">2. Twoje dane</div>
+      <label class="field">Imię i nazwisko<input name="name" autocomplete="name" /></label>
+      <label class="field">E-mail<input name="email" type="email" autocomplete="email" /></label>
+      <div class="signup__err" data-signup-err aria-live="polite"></div>
+      <button type="submit" class="signup__btn">Rezerwuję miejsce</button>
+      <div class="signup__fine">Płatność po potwierdzeniu. Faktura VAT. Bezpłatna rezygnacja do 7 dni przed terminem.</div>
+    </form>
+
+    <div class="signup__done" data-signup-done hidden>
+      <div class="signup__ok">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 25 L21 32 L35 17" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" data-a="check"></path></svg>
+      </div>
+      <div class="signup__done-title">Miejsce zarezerwowane.</div>
+      <div class="signup__done-text">{course.name} · <span data-selected-label></span>. Potwierdzenie i fakturę wyślemy mailem.</div>
+    </div>
+  </aside>
+</section>
+
+<style>
+  .cbody {
+    padding-bottom: 96px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 56px;
+    align-items: flex-start;
+  }
+
+  .cbody__main {
+    flex: 1 1 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    min-width: 0;
+  }
+
+  .prog {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .prog__title {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 44px;
+    letter-spacing: -0.03em;
+  }
+
+  .mods {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+
+  .mod {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 16px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+
+  .mod__n {
+    font-family: var(--f-mono);
+    font-size: 14px;
+    color: var(--accent);
+    padding-top: 4px;
+  }
+
+  .mod__txt {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mod__t {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .mod__d {
+    font-size: 15px;
+    color: var(--muted-2);
+    line-height: 1.5;
+  }
+
+  .mod__tag {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    color: var(--accent);
+    border: 1px solid var(--tag-bd);
+    border-radius: var(--r-pill);
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+
+  .boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 16px;
+  }
+
+  .box {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .box__title {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 26px;
+  }
+
+  .box__item {
+    display: flex;
+    gap: 12px;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--soft);
+  }
+
+  .box__mark {
+    color: var(--accent);
+  }
+
+  .box__stamp {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: var(--f-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    transform: rotate(8deg);
+    opacity: 0.85;
+  }
+
+  .others {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .others__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 12px;
+  }
+
+  .other {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    padding: 20px 22px;
+    color: var(--fg);
+    transition: border-color 0.15s;
+  }
+
+  .other:hover {
+    border-color: var(--accent);
+  }
+
+  .other__txt {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .other__no {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  .other__name {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .other__go {
+    font-size: 18px;
+    transition: transform 0.3s;
+  }
+
+  .other:hover .other__go {
+    transform: translateX(6px);
+  }
+
+  .signup {
+    flex: 1 1 340px;
+    max-width: 420px;
+    position: sticky;
+    top: 88px;
+    background: var(--fg);
+    color: var(--bg);
+    border-radius: var(--r-lg);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .signup__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .signup__title {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .signup__price-wrap {
+    text-align: right;
+  }
+
+  .signup__price {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .signup__per {
+    font-size: 12px;
+    color: var(--card-muted);
+  }
+
+  .signup__form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .signup__step {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sess {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 2px solid var(--card-input-bd);
+    background: transparent;
+    color: var(--bg);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      border-color 0.15s,
+      background 0.15s,
+      color 0.15s;
+  }
+
+  .sess[aria-checked='true'] {
+    border-color: var(--bg);
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  .sess__txt {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sess__date {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .sess__fmt {
+    font-size: 13px;
+    opacity: 0.75;
+  }
+
+  .sess__seats {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--hot);
+    white-space: nowrap;
+  }
+
+  .signup__empty {
+    font-size: 14px;
+    color: var(--line-3);
+    background: var(--card-soft);
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--line-3);
+  }
+
+  .field input {
+    height: 48px;
+    border: 1px solid var(--card-input-bd);
+    border-radius: 12px;
+    padding: 0 14px;
+    font-size: 16px;
+    background: var(--card-input-bg);
+    color: var(--bg);
+    outline: none;
+  }
+
+  .field input:focus {
+    border-color: var(--accent);
+  }
+
+  .signup__err {
+    font-size: 13px;
+    color: var(--hot);
+    font-weight: 600;
+    min-height: 0;
+  }
+
+  .signup__err:empty {
+    display: none;
+  }
+
+  .signup__btn {
+    height: 56px;
+    border: 0;
+    border-radius: var(--r-pill);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+      background 0.15s,
+      color 0.15s;
+  }
+
+  .signup__btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .signup__fine {
+    font-size: 12px;
+    color: var(--card-muted);
+    line-height: 1.5;
+  }
+
+  .signup__done {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 8px 0;
+  }
+
+  .signup__ok {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .signup__ok svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .signup__done-title {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.1;
+  }
+
+  .signup__done-text {
+    font-size: 15px;
+    color: var(--line-3);
+  }
+
+  @media (max-width: 900px) {
+    .signup {
+      position: static;
+      max-width: none;
+    }
+  }
+</style>

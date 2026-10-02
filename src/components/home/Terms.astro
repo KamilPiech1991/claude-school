@@ -1,0 +1,204 @@
+---
+import { courses, courseById, sessions, seatsLabel } from '../../data/site';
+import { href, type Theme } from '../../data/theme';
+
+interface Props {
+  theme: Theme;
+}
+
+const { theme } = Astro.props;
+const filters = [{ id: 'all', label: 'Wszystkie' }, ...courses.map((c) => ({ id: c.id, label: c.name }))];
+const rows = sessions.map((s) => ({
+  ...s,
+  courseName: courseById(s.course).name,
+  url: `${href(theme, `kursy/${s.course}/`)}?h=${s.hours}&s=${s.id}`,
+}));
+---
+
+<section id="terminy" class="wrap section">
+  <div data-a="reveal" class="section-head">
+    <h2 class="h2" data-a="split">Najbliższe terminy</h2>
+    <div role="group" aria-label="Filtruj terminy" class="filters" data-filters>
+      {filters.map((f) => (
+        <button type="button" class="filter" data-filter={f.id} aria-pressed={f.id === 'all' ? 'true' : 'false'}>{f.label}</button>
+      ))}
+    </div>
+  </div>
+  <div data-a="stagger" class="rows" data-rows>
+    {rows.map((r) => (
+      <a href={r.url} class="row" data-course={r.course}>
+        <div class="row__date"><span class="row__day">{r.day}</span><span class="row__mon">{r.mon}</span></div>
+        <div class="row__course"><div class="row__name">{r.courseName}</div><div class="row__when">{r.weekday}, {r.time}</div></div>
+        <div class="row__fmt">{r.format}</div>
+        <div class="row__h">{r.hours} h</div>
+        <div class:list={['row__seats', r.seats <= 4 && 'row__seats--low']}>{seatsLabel(r.seats)}</div>
+        <div class="row__go" aria-hidden="true">→</div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter {
+    border: 1px solid var(--line-2);
+    border-radius: var(--r-pill);
+    padding: 0 18px;
+    height: 44px;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    background: transparent;
+    color: var(--soft);
+    transition:
+      background 0.2s,
+      color 0.2s;
+  }
+
+  .filter[aria-pressed='true'] {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .rows {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 56px minmax(0, 1fr) 44px;
+    gap: 20px;
+    align-items: center;
+    padding: 22px 8px;
+    border-bottom: 1px solid var(--line);
+    color: var(--fg);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Tło wjeżdżające od lewej przy najechaniu */
+  .row::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--surface);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+    z-index: -1;
+  }
+
+  .row:hover::before {
+    transform: scaleX(1);
+  }
+
+  .row__date {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .row__day {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 40px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .row__mon {
+    font-size: 14px;
+    color: var(--muted-2);
+  }
+
+  .row__course {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .row__name {
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  .row__when {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .row__fmt {
+    font-size: 15px;
+    color: var(--soft);
+  }
+
+  .row__h {
+    font-family: var(--f-mono);
+    font-size: 14px;
+  }
+
+  .row__seats {
+    font-size: 14px;
+    color: var(--muted-2);
+  }
+
+  .row__seats--low {
+    color: var(--low);
+  }
+
+  .row__go {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--line-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s,
+      transform 0.3s;
+  }
+
+  .row:hover .row__go {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 760px) {
+    .row {
+      grid-template-columns: 72px minmax(0, 1fr) 44px;
+      gap: 6px 16px;
+    }
+    .row__date {
+      grid-row: span 3;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .row__go {
+      grid-column: 3;
+      grid-row: 1 / span 3;
+    }
+    .row__fmt,
+    .row__h,
+    .row__seats {
+      grid-column: 2;
+      font-size: 14px;
+    }
+    .row__h {
+      display: none;
+    }
+  }
+</style>

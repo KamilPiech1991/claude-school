@@ -1,0 +1,83 @@
+---
+import { quotes } from '../../data/site';
+---
+
+<section class="wrap section">
+  <div data-a="quotes" class="quotes">
+    {quotes.map((q) => (
+      <figure class="quote">
+        <div class="quote__mark" data-a="qmark">“</div>
+        <blockquote class="quote__text">{q.text}</blockquote>
+        <figcaption class="quote__who">
+          <div class="quote__avatar"></div>
+          <div><div class="quote__name">{q.who}</div><div class="quote__role">{q.role}</div></div>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+  .quotes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 16px;
+  }
+
+  .quote {
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    justify-content: space-between;
+    background: var(--surface-2);
+  }
+
+  .quote__mark {
+    font-family: var(--f-display);
+    font-size: 64px;
+    line-height: 0.5;
+    color: var(--accent);
+    height: 28px;
+    transform-origin: 20% 60%;
+  }
+
+  .quote__text {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 500;
+    font-size: 23px;
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+    flex: 1;
+  }
+
+  .quote__who {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+
+  .quote__avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: repeating-linear-gradient(135deg, var(--stripe-1) 0 6px, var(--line) 6px 12px);
+  }
+
+  .quote__name {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .quote__role {
+    font-size: 14px;
+    color: var(--muted);
+  }
+</style>

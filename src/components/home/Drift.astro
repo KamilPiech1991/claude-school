@@ -1,0 +1,44 @@
+---
+const items = ['Claude od zera', 'Claude Code', 'Claude Cowork', 'Claude od zera', 'Claude Code', 'Claude Cowork'];
+---
+
+<section aria-hidden="true" class="drift">
+  <div data-a="drift" class="drift__row">
+    {items.map((t) => <><span class="drift__word">{t}</span><span class="drift__star" data-a="star">✳</span></>)}
+  </div>
+</section>
+
+<style>
+  .drift {
+    padding: 40px 0;
+    overflow: hidden;
+  }
+
+  .drift__row {
+    display: flex;
+    gap: 48px;
+    white-space: nowrap;
+    width: max-content;
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(72px, 11vw, 168px);
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .drift__word {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--line-2);
+    transition: color 0.4s;
+  }
+
+  .drift__word:hover {
+    color: var(--accent);
+    -webkit-text-stroke-color: var(--accent);
+  }
+
+  .drift__star {
+    display: inline-block;
+    color: var(--accent);
+  }
+</style>

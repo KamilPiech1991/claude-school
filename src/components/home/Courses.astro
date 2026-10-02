@@ -1,0 +1,191 @@
+---
+import Seg from '../Seg.astro';
+import { courses, nextSession, zl, type Hours } from '../../data/site';
+import { href, type Theme } from '../../data/theme';
+
+interface Props {
+  theme: Theme;
+}
+
+const { theme } = Astro.props;
+const hoursList: Hours[] = [4, 8];
+const cards = courses.map((c) => {
+  const next = Object.fromEntries(
+    hoursList.map((h) => {
+      const n = nextSession(c.id, h);
+      return [h, n ? `${n.day} ${n.mon} · ${n.format}` : 'wkrótce'];
+    }),
+  );
+  return { ...c, next, url: href(theme, `kursy/${c.id}/`) };
+});
+---
+
+<section id="kursy" class="wrap section">
+  <div data-a="reveal" class="section-head courses__head">
+    <h2 class="h2 courses__title" data-a="split">Trzy kursy. Każdy w wersji na pół dnia albo cały.</h2>
+    <p class="lede courses__lede">4 godziny to solidny start. 8 godzin to start plus warsztat na Twoim własnym procesie.</p>
+  </div>
+  <div data-a="line" class="courses__rule"></div>
+  <div data-a="stagger" class="courses__list">
+    {cards.map((c) => (
+      <div
+        class="course"
+        data-course-card={c.id}
+        data-hours={c.defaultHours}
+        data-price={JSON.stringify(c.price)}
+        data-next={JSON.stringify(c.next)}
+        data-url={c.url}
+      >
+        <div class="course__name-row">
+          <div class="course__no">{c.no}</div>
+          <a href={`${c.url}?h=${c.defaultHours}`} class="course__name" data-course-link>{c.name}</a>
+        </div>
+        <div class="course__mid">
+          <div class="course__short">{c.short}</div>
+          <div class="course__meta">
+            <span data-count>{c.defaultHours === 4 ? 4 : 8} modułów · {c.defaultHours} h</span>
+            <span>Najbliżej: <span class="course__next" data-next-label>{c.next[c.defaultHours]}</span></span>
+          </div>
+        </div>
+        <div class="course__end">
+          <Seg value={c.defaultHours} />
+          <div class="course__price" data-price-label>{zl(c.price[c.defaultHours])}</div>
+          <a href={`${c.url}?h=${c.defaultHours}`} aria-label={`${c.name}: program kursu i zapisy`} class="course__go" data-course-link data-magnetic>→</a>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .courses__head {
+    margin-bottom: 40px;
+    gap: 32px;
+  }
+
+  .courses__title {
+    max-width: 760px;
+  }
+
+  .courses__lede {
+    max-width: 360px;
+  }
+
+  .courses__rule {
+    height: 1px;
+    background: var(--line-2);
+  }
+
+  .courses__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .course {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 24px 40px;
+    padding: 36px 12px;
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .course:hover {
+    background: var(--surface-hover);
+  }
+
+  .course__name-row {
+    display: flex;
+    gap: 20px;
+    align-items: baseline;
+  }
+
+  .course__no {
+    font-family: var(--f-mono);
+    font-size: 14px;
+    color: var(--accent);
+  }
+
+  .course__name {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: clamp(32px, 3.6vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+  }
+
+  .course__mid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .course__short {
+    color: var(--soft);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .course__meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: var(--muted-2);
+  }
+
+  .course__next {
+    color: var(--fg);
+  }
+
+  .course__end {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .course__price {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 24px;
+    min-width: 110px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .course__go {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--fg);
+    color: var(--bg);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background 0.15s,
+      rotate 0.2s;
+  }
+
+  .course__go:hover {
+    background: var(--accent);
+    color: var(--bg);
+    rotate: -45deg;
+  }
+
+  @media (max-width: 600px) {
+    .course__end {
+      justify-content: flex-start;
+    }
+    .course__price {
+      text-align: left;
+      min-width: 0;
+    }
+  }
+</style>

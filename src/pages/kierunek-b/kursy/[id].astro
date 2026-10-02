@@ -1,0 +1,12 @@
+---
+import CoursePage from '../../../views/CoursePage.astro';
+import { courses, type Course } from '../../../data/site';
+
+export function getStaticPaths() {
+  return courses.map((course) => ({ params: { id: course.id }, props: { course } }));
+}
+
+const { course } = Astro.props as { course: Course };
+---
+
+<CoursePage theme="b" course={course} />

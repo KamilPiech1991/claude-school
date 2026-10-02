@@ -1,0 +1,33 @@
+---
+import type { Hours } from '../data/site';
+
+interface Props {
+  value: Hours;
+  labels?: Record<Hours, string>;
+  size?: 'sm' | 'lg';
+}
+
+const { value, labels = { 4: '4 h', 8: '8 h' }, size = 'sm' } = Astro.props;
+const opts: Hours[] = [4, 8];
+---
+
+<div role="group" aria-label="Wymiar kursu" class:list={['seg', size === 'lg' && 'seg--lg']} data-seg>
+  <span class="seg__thumb" aria-hidden="true"></span>
+  {opts.map((h) => <button type="button" data-hours={h} aria-pressed={h === value ? 'true' : 'false'}>{labels[h]}</button>)}
+</div>
+
+<style>
+  .seg--lg {
+    padding: 5px;
+  }
+  .seg--lg button {
+    padding: 0 22px;
+    height: 44px;
+    font-size: 15px;
+  }
+  .seg--lg :global(.seg__thumb) {
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+  }
+</style>

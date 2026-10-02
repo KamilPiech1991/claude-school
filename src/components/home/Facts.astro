@@ -1,0 +1,97 @@
+---
+const facts = [
+  ['Grupa', 'Maksymalnie <b data-a="count" data-to="12">12</b> osób'],
+  ['Wymiar', '<b data-a="count" data-to="4">4</b> h lub <b data-a="count" data-to="8">8</b> h'],
+  ['Format', 'Warszawa · online na żywo'],
+  ['Po kursie', 'Certyfikat Claude School'],
+];
+const logos = [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6];
+---
+
+<section class="wrap facts">
+  <div data-a="stagger" class="facts__grid">
+    {facts.map(([k, v]) => (
+      <div class="fact">
+        <div class="label" data-a="scramble">{k}</div>
+        <div class="fact__v" set:html={v} />
+      </div>
+    ))}
+  </div>
+  <div class="logos">
+    <div class="logos__lbl">Szkolili się u nas:</div>
+    <div class="logos__track">
+      <div data-a="marquee" class="logos__row">
+        {logos.map((l) => <div class="logo">logo {l}</div>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .facts {
+    padding-bottom: 72px;
+  }
+
+  .facts__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fact {
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .fact__v {
+    font-size: 18px;
+  }
+
+  .fact__v :global(b) {
+    font-weight: inherit;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .logos {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-top: 32px;
+  }
+
+  .logos__lbl {
+    font-size: 14px;
+    color: var(--muted);
+    flex: none;
+  }
+
+  .logos__track {
+    flex: 1;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .logos__row {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+  }
+
+  .logo {
+    width: 128px;
+    height: 44px;
+    flex: none;
+    border-radius: 8px;
+    background: repeating-linear-gradient(135deg, var(--surface-hover) 0 8px, var(--logo-stripe) 8px 16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--logo-text);
+  }
+</style>

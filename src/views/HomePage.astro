@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import Facts from '../components/home/Facts.astro';
+import RedPen from '../components/home/RedPen.astro';
+import Courses from '../components/home/Courses.astro';
+import Drift from '../components/home/Drift.astro';
+import Timetable from '../components/home/Timetable.astro';
+import Terms from '../components/home/Terms.astro';
+import Lead from '../components/home/Lead.astro';
+import Trainers from '../components/home/Trainers.astro';
+import Quotes from '../components/home/Quotes.astro';
+import B2B from '../components/home/B2B.astro';
+import Faq from '../components/home/Faq.astro';
+import type { Theme } from '../data/theme';
+
+interface Props {
+  theme: Theme;
+}
+
+const { theme } = Astro.props;
+---
+
+<Base theme={theme} title="Claude School – szkolenia z Claude w Warszawie i online">
+  <main data-screen-label="Strona główna">
+    <Hero theme={theme} />
+    <Facts />
+    <RedPen />
+    <Courses theme={theme} />
+    <Drift />
+    <Timetable />
+    <Terms theme={theme} />
+    <Lead />
+    <Trainers />
+    <Quotes />
+    <B2B />
+    <Faq />
+  </main>
+</Base>

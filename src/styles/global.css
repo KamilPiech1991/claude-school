@@ -1,0 +1,403 @@
+/* ------------------------------------------------------------------
+   Tokeny. Kierunek A (ciemny) i B (jasny) mają ten sam układ,
+   różnią się wyłącznie paletą, fontami i promieniami zaokrągleń.
+   ------------------------------------------------------------------ */
+:root[data-theme='a'] {
+  --bg: #141210;
+  --fg: #f4f1ec;
+  --accent: #e8794a;
+  --line: #2a2622;
+  --line-2: #3a342e;
+  --line-3: #4a433c;
+  --line-card: #2e2a25;
+  --muted: #8a8279;
+  --muted-2: #a39a90;
+  --soft: #c9c1b7;
+  --soft-2: #e6e0d8;
+  --surface: #1c1916;
+  --surface-2: #171512;
+  --surface-hover: #1a1714;
+  --terminal: #0e0d0b;
+  --stripe-1: #1e1b18;
+  --stripe-2: #231f1b;
+  --logo-stripe: #201c18;
+  --logo-text: #7a7269;
+  --card-muted: #6b635a;
+  --card-line: #ddd6cc;
+  --card-input-bd: #d6cfc5;
+  --card-input-bg: #ffffff;
+  --card-soft: #e8e2d9;
+  --hot: #b4471b;
+  --low: #f0a07a;
+  --term-ok: #a5c98a;
+  --tag-bd: #5a3a2a;
+  --header-bg: rgba(20, 18, 16, 0.9);
+  --tape: rgba(232, 121, 74, 0.35);
+  --shadow-stamp: 0 12px 30px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 24px 48px rgba(0, 0, 0, 0.45);
+  --shadow-term: 0 24px 48px rgba(0, 0, 0, 0.5);
+  --shadow-sheet: 0 1px 0 #e6dfd0, 0 30px 60px rgba(0, 0, 0, 0.45);
+  --shadow-lead-1: 0 30px 60px rgba(60, 20, 0, 0.35);
+  --shadow-lead-2: 0 24px 48px rgba(60, 20, 0, 0.3);
+
+  --f-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --f-body: 'Geist', system-ui, sans-serif;
+  --f-mono: 'Geist Mono', ui-monospace, monospace;
+  --f-hand: 'Caveat', cursive;
+
+  --r-pill: 999px;
+  --r-xl: 32px;
+  --r-lg: 28px;
+  --r-md: 24px;
+  --r-sm: 20px;
+  --r-xs: 18px;
+  --h1-track: -0.045em;
+  --accent-style: italic;
+}
+
+:root[data-theme='b'] {
+  --bg: #f6f5f1;
+  --fg: #15171c;
+  --accent: #2f55d4;
+  --line: #dedbd3;
+  --line-2: #c9c6be;
+  --line-3: #b5b2aa;
+  --line-card: #d6d3cb;
+  --muted: #646a75;
+  --muted-2: #555b66;
+  --soft: #3e4350;
+  --soft-2: #2a2e36;
+  --surface: #ffffff;
+  --surface-2: #ffffff;
+  --surface-hover: #eeece6;
+  --terminal: #ffffff;
+  --stripe-1: #eceae4;
+  --stripe-2: #e4e1da;
+  --logo-stripe: #e6e3dc;
+  --logo-text: #7a808a;
+  --card-muted: #a7acb6;
+  --card-line: #343944;
+  --card-input-bd: #3a3f4a;
+  --card-input-bg: #1f232b;
+  --card-soft: #262a33;
+  --hot: #9db2ff;
+  --low: #c2410c;
+  --term-ok: #2f7a3a;
+  --tag-bd: #b8c4f0;
+  --header-bg: rgba(246, 245, 241, 0.9);
+  --tape: rgba(47, 85, 212, 0.22);
+  --shadow-stamp: 0 12px 30px rgba(20, 24, 40, 0.14);
+  --shadow-card: 0 24px 48px rgba(20, 24, 40, 0.14);
+  --shadow-term: 0 24px 48px rgba(20, 24, 40, 0.16);
+  --shadow-sheet: 0 1px 0 #e6dfd0, 0 30px 60px rgba(20, 24, 40, 0.14);
+  --shadow-lead-1: 0 30px 60px rgba(10, 20, 80, 0.3);
+  --shadow-lead-2: 0 24px 48px rgba(10, 20, 80, 0.25);
+
+  --f-display: 'Archivo', system-ui, sans-serif;
+  --f-body: 'Instrument Sans', system-ui, sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --f-hand: 'Caveat', cursive;
+
+  --r-pill: 8px;
+  --r-xl: 14px;
+  --r-lg: 12px;
+  --r-md: 12px;
+  --r-sm: 10px;
+  --r-xs: 10px;
+  --h1-track: -0.035em;
+  --accent-style: normal;
+}
+
+/* ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+input,
+select,
+button {
+  font-family: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Układ */
+.wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+@media (max-width: 600px) {
+  .wrap {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.section {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+/* Typografia */
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.label {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(36px, 4.6vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.hand {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0;
+}
+
+.lede {
+  margin: 0;
+  color: var(--muted-2);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px 32px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+/* Słowa nagłówków odsłaniane spod maski */
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.mask > span {
+  display: inline-block;
+}
+
+/* Przyciski */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--r-pill);
+  padding: 0 30px;
+  height: 56px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.btn--accent {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.btn--accent:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--line-3);
+  font-weight: 500;
+}
+
+.btn--ghost:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+/* Przełącznik 4 h / 8 h */
+.seg {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 4px;
+  gap: 2px;
+  position: relative;
+}
+
+.seg button {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  border-radius: var(--r-pill);
+  padding: 0 16px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--soft);
+  transition: color 0.25s;
+}
+
+.seg button[aria-pressed='true'] {
+  color: var(--bg);
+}
+
+/* Podświetlenie aktywnej opcji, przesuwane przez GSAP */
+.seg__thumb {
+  position: absolute;
+  z-index: 0;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  border-radius: var(--r-pill);
+  background: var(--fg);
+  pointer-events: none;
+}
+
+/* Pasek postępu przewijania */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* Kursor-podążacz (tylko precyzyjne wskaźniki) */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0;
+  mix-blend-mode: difference;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor {
+    display: none;
+  }
+}
+
+/* Zanim GSAP przejmie elementy, ukrywamy te animowane od zera,
+   żeby nie mignęły. Bez JS albo przy ograniczonym ruchu – zawsze widoczne. */
+.js-motion [data-a='word'],
+.js-motion [data-a='fade'],
+.js-motion [data-a='card'] {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-motion [data-a='word'],
+  .js-motion [data-a='fade'],
+  .js-motion [data-a='card'] {
+    visibility: visible;
+  }
+}
+
+/* Kotwice nie chowają się pod przyklejonym nagłówkiem */
+[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Bez JS aktywna opcja przełącznika ma własne tło; z JS tło daje przesuwany „thumb” */
+.seg button[aria-pressed='true'] {
+  background: var(--fg);
+}
+
+.seg[data-ready] button[aria-pressed='true'] {
+  background: transparent;
+}
+
+.seg:not([data-ready]) .seg__thumb {
+  display: none;
+}
+
+/* Przesunięcie elementów za kursorem (paralaksa w hero) – osobna właściwość,
+   żeby nie gryzło się z transformacjami animacji wejścia */
+[data-depth] {
+  translate: var(--px, 0px) var(--py, 0px);
+}

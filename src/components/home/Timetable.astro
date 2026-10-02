@@ -1,0 +1,142 @@
+---
+const blocks = [
+  { t: '9:00', title: 'Moduły 1–2', d: 'Podstawy i polecenia, które działają' },
+  { brk: true },
+  { t: '11:00', title: 'Moduły 3–4', d: 'Twoje pliki, Projekty, instrukcje' },
+  { t: '12:45', lunch: true },
+  { t: '13:30', title: 'Moduły 5–6', d: 'Zaawansowane, research, dane' },
+  { brk: true },
+  { t: '15:30 – 17:00', title: 'Warsztat', d: 'Twój proces od A do Z, z trenerem', hot: true },
+];
+---
+
+<section class="wrap timetable" data-a="timetable-section">
+  <div data-a="reveal" class="section-head">
+    <h2 class="h2">Plan lekcji <span class="hand">(wersja 8 h)</span></h2>
+    <p class="lede" style="max-width:380px">Tak wygląda sobota na sali. Wersja 4 h to pierwsze dwa bloki, wieczorem od 17:00.</p>
+  </div>
+  <div class="tt__scroll">
+    <div data-a="timetable" class="tt">
+      {blocks.map((b) =>
+        b.brk ? (
+          <div class="tt__brk"></div>
+        ) : b.lunch ? (
+          <div class="tt__cell tt__cell--lunch tt__brk" data-a="tt-cell"><div class="tt__t">{b.t}</div><div class="hand tt__lunch">obiad</div></div>
+        ) : (
+          <div class:list={['tt__cell', b.hot && 'tt__cell--hot']} data-a="tt-cell">
+            <div class="tt__t">{b.t}</div>
+            <div class="tt__title">{b.title}</div>
+            <div class="tt__d">{b.d}</div>
+          </div>
+        ),
+      )}
+      <div data-a="bell" aria-hidden="true" class="tt__bell"><div class="tt__bell-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .timetable {
+    padding-top: 40px;
+    padding-bottom: 72px;
+  }
+
+  .tt__scroll {
+    overflow-x: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .tt {
+    position: relative;
+    min-width: 880px;
+    display: grid;
+    grid-template-columns: 105fr 15fr 105fr 45fr 105fr 15fr 90fr;
+    border-top: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .tt > div:not(.tt__cell--hot):not(.tt__bell) {
+    border-right: 1px solid var(--line);
+  }
+
+  .tt__cell {
+    padding: 20px 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 170px;
+    transition: background 0.3s;
+  }
+
+  .tt__brk {
+    background: repeating-linear-gradient(90deg, var(--surface) 0 3px, transparent 3px 7px);
+  }
+
+  .tt__cell--lunch {
+    padding: 20px 12px 24px;
+  }
+
+  .tt__t {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .tt__title {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .tt__d {
+    font-size: 14px;
+    color: var(--muted-2);
+    line-height: 1.4;
+  }
+
+  .tt__lunch {
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .tt__cell--hot {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .tt__cell--hot .tt__t,
+  .tt__cell--hot .tt__d {
+    color: var(--bg);
+  }
+
+  .tt__cell--hot .tt__title {
+    font-weight: 700;
+  }
+
+  /* Komórka, nad którą właśnie przechodzi „dzwonek” */
+  .tt__cell.is-now:not(.tt__cell--hot) {
+    background: var(--surface-hover);
+  }
+
+  .tt__bell {
+    position: absolute;
+    top: -10px;
+    bottom: -10px;
+    left: 0;
+    width: 2px;
+    background: var(--fg);
+    pointer-events: none;
+  }
+
+  .tt__bell-dot {
+    position: absolute;
+    top: -6px;
+    left: -5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--fg);
+  }
+</style>
