@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<style>
+body{margin:0;background:#141210;color:#F4F1EC;font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#E8794A;text-decoration:none}a:hover{color:#F4F1EC}
+input,select,button{font-family:inherit}
+button:focus-visible,input:focus-visible{outline:2px solid #E8794A;outline-offset:3px}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#141210;color:#F4F1EC;overflow-x:clip">
+<header style="position:sticky;top:0;z-index:20;background:rgba(20,18,16,.9);backdrop-filter:blur(14px);border-bottom:1px solid #2A2622">
+  <div style="max-width:1280px;margin:0 auto;padding:10px 32px;display:flex;align-items:center;gap:28px;flex-wrap:wrap">
+    <button onClick="{{ goHome }}" aria-label="Claude School – strona główna" style="display:flex;align-items:center;gap:10px;background:none;border:0;color:#F4F1EC;cursor:pointer;white-space:nowrap;padding:0;min-height:44px">
+      <div style="width:22px;height:22px;background:#E8794A;border-radius:6px;transform:rotate(12deg)"></div>
+      <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:20px;letter-spacing:-.02em">Claude School</div>
+    </button>
+    <nav aria-label="Główna nawigacja" style="display:flex;gap:4px;flex:1;flex-wrap:wrap">
+      <button onClick="{{ toCourses }}" style="background:none;border:0;color:#C9C1B7;font-size:15px;padding:0 12px;height:44px;cursor:pointer;white-space:nowrap;transition:color .15s" style-hover="color:#F4F1EC">Kursy</button>
+      <button onClick="{{ toTerms }}" style="background:none;border:0;color:#C9C1B7;font-size:15px;padding:0 12px;height:44px;cursor:pointer;white-space:nowrap;transition:color .15s" style-hover="color:#F4F1EC">Terminy</button>
+      <button onClick="{{ toB2b }}" style="background:none;border:0;color:#C9C1B7;font-size:15px;padding:0 12px;height:44px;cursor:pointer;white-space:nowrap;transition:color .15s" style-hover="color:#F4F1EC">Dla firm</button>
+      <button onClick="{{ toTrainers }}" style="background:none;border:0;color:#C9C1B7;font-size:15px;padding:0 12px;height:44px;cursor:pointer;white-space:nowrap;transition:color .15s" style-hover="color:#F4F1EC">Trenerzy</button>
+      <button onClick="{{ toLead }}" style="background:none;border:0;color:#E8794A;font-size:15px;padding:0 12px;height:44px;cursor:pointer;white-space:nowrap">Darmowa lekcja</button>
+    </nav>
+    <button onClick="{{ toTerms }}" style="background:#F4F1EC;color:#141210;border:0;border-radius:999px;padding:0 22px;height:44px;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s" style-hover="background:#E8794A">Zapisz się</button>
+  </div>
+</header>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main data-screen-label="Strona główna">
+  <section style="max-width:1280px;margin:0 auto;padding:72px 32px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr));gap:56px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:32px">
+      <div data-a="fade" style="display:inline-flex;align-self:flex-start;align-items:center;gap:10px;border:1px solid #3A342E;border-radius:999px;padding:8px 16px;font-family:'Geist Mono';font-size:13px;color:#C9C1B7">
+        <div data-a="pulse" style="width:8px;height:8px;border-radius:50%;background:#E8794A"></div>Nowe terminy: październik – grudzień 2026
+      </div>
+      <h1 style="margin:0;font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(52px,7.2vw,108px);line-height:.95;letter-spacing:-.045em">
+        <span style="display:inline-block;overflow:hidden;vertical-align:bottom"><span data-a="word" style="display:inline-block">Nie</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:bottom"><span data-a="word" style="display:inline-block">ucz</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:bottom"><span data-a="word" style="display:inline-block">się</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:bottom"><span data-a="word" style="display:inline-block">o</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:bottom"><span data-a="word" style="display:inline-block">AI.</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:bottom"><span data-a="word" style="display:inline-block">Naucz</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:bottom"><span data-a="word" style="display:inline-block">się</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:bottom"><span data-a="word" style="display:inline-block">z</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:bottom"><span data-a="word" style="display:inline-block">nim</span></span> <span style="display:inline-block;overflow:hidden;vertical-align:bottom;padding-right:.08em"><span data-a="word" style="display:inline-block;color:#E8794A;font-style:italic;font-weight:700">pracować.</span></span>
+      </h1>
+      <p data-a="fade" style="margin:0;max-width:540px;font-size:20px;line-height:1.5;color:#C9C1B7;text-wrap:pretty">Szkolenia z Claude na sali i online na żywo. Pracujesz na własnych zadaniach, z trenerem obok. Wychodzisz z gotowym warsztatem pracy, a nie z plikiem notatek.</p>
+      <div data-a="fade" style="display:flex;gap:12px;flex-wrap:wrap">
+        <button onClick="{{ toTerms }}" style="background:#E8794A;color:#141210;border:0;border-radius:999px;padding:0 30px;height:56px;font-size:17px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s" style-hover="background:#F4F1EC">Zobacz terminy</button>
+        <button onClick="{{ toLead }}" style="background:transparent;color:#F4F1EC;border:1px solid #4A433C;border-radius:999px;padding:0 30px;height:56px;font-size:17px;font-weight:500;cursor:pointer;white-space:nowrap;transition:border-color .15s" style-hover="border-color:#F4F1EC">Pierwsza lekcja za 0 zł</button>
+      </div>
+      <div data-a="fade" aria-hidden="true" style="display:flex;align-items:flex-start;gap:8px;margin-top:-8px;padding-left:180px;font-family:'Caveat';font-size:26px;line-height:1;color:#E8794A;transform:rotate(-3deg)">
+        <svg width="40" height="34" viewBox="0 0 40 34" fill="none" style="flex:none;margin-top:-10px"><path d="M36 30 C 24 28, 10 22, 6 4" stroke="#E8794A" stroke-width="2" stroke-linecap="round"></path><path d="M2 10 L6 3 L12 8" stroke="#E8794A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>tak, na Twoich plikach z pracy</span>
+      </div>
+    </div>
+    <div style="position:relative;min-height:580px">
+      <div data-a="card" style="position:absolute;top:0;left:0;right:64px;bottom:150px;border-radius:28px;overflow:hidden;border:1px solid #2E2A25">
+        <div data-a="parallax" style="position:absolute;inset:-40px 0;background:repeating-linear-gradient(135deg,#1E1B18 0 10px,#231F1B 10px 20px)"></div>
+        <div style="position:absolute;left:20px;top:20px;font-family:'Geist Mono';font-size:12px;color:#8A8279">zdjęcie: trener przy stole z uczestnikami, ekran z Claude w tle</div>
+      </div>
+      <div aria-hidden="true" style="position:absolute;right:-12px;bottom:170px;width:136px;height:136px;z-index:3">
+        <div style="position:absolute;inset:0;border-radius:50%;background:#F4F1EC;box-shadow:0 12px 30px rgba(0,0,0,.4)"></div>
+        <svg data-a="spin" viewBox="0 0 136 136" width="136" height="136" style="position:absolute;inset:0"><defs><path id="stampCircle" d="M68,68 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"></path></defs><text style="font-family:'Geist Mono';font-size:11.5px;letter-spacing:2.6px;fill:#141210;text-transform:uppercase"><textPath href="#stampCircle">ZAPISY OTWARTE ✳ JESIEŃ 2026 ✳ </textPath></text></svg>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Caveat';font-weight:700;font-size:30px;color:#E8794A;transform:rotate(-8deg)">4h / 8h</div>
+      </div>
+      <div data-a="card" style="position:absolute;right:0;top:40px;width:min(290px,64%)">
+        <div data-a="float" style="background:#F4F1EC;color:#141210;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:0 24px 48px rgba(0,0,0,.45)">
+          <div style="font-family:'Geist Mono';font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#6B635A">Najbliższy termin</div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:56px;line-height:.9;letter-spacing:-.04em">{{ heroNext.day }}</span><span style="font-size:16px">{{ heroNext.mon }} · {{ heroNext.wd }}</span></div>
+          <div style="font-size:17px;font-weight:600">{{ heroNext.courseName }}</div>
+          <div style="display:flex;justify-content:space-between;gap:8px;font-size:14px;color:#4A433C;border-top:1px solid #DDD6CC;padding-top:12px"><span>{{ heroNext.fmt }}</span><span style="color:#B4471B;font-weight:600">{{ heroNext.seatsShort }}</span></div>
+        </div>
+      </div>
+      <div data-a="card" style="position:absolute;left:24px;bottom:0;width:min(440px,90%)">
+        <div data-a="float" style="background:#0E0D0B;border:1px solid #2E2A25;border-radius:20px;overflow:hidden;box-shadow:0 24px 48px rgba(0,0,0,.5)">
+          <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid #2A2622;font-family:'Geist Mono';font-size:12px;color:#8A8279">
+            <div style="width:10px;height:10px;border-radius:50%;background:#3A342E"></div><div style="width:10px;height:10px;border-radius:50%;background:#3A342E"></div><div style="width:10px;height:10px;border-radius:50%;background:#3A342E"></div>
+            <span style="margin-left:8px">ćwiczenie 3 · Twój raport kwartalny</span>
+          </div>
+          <div style="padding:18px 18px 20px;display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:1.5">
+            <div style="align-self:flex-end;max-width:85%;background:#2A2622;border-radius:14px 14px 4px 14px;padding:10px 14px;min-height:42px"><span data-a="typed" data-text="Wyciągnij 5 wniosków dla zarządu. Każdy z liczbą i numerem strony."></span><span data-a="caret" style="display:inline-block;width:2px;height:15px;background:#E8794A;vertical-align:-2px;margin-left:2px"></span></div>
+            <div data-a="reply" style="display:flex;gap:10px"><span style="font-family:'Geist Mono';color:#E8794A">1</span><span style="color:#E6E0D8">Przychody +14% r/r, głównie segment B2B <span style="color:#8A8279">· s. 4</span></span></div>
+            <div data-a="reply" style="display:flex;gap:10px"><span style="font-family:'Geist Mono';color:#E8794A">2</span><span style="color:#E6E0D8">Koszt pozyskania klienta niższy o 9% <span style="color:#8A8279">· s. 7</span></span></div>
+            <div data-a="reply" style="display:flex;gap:10px"><span style="font-family:'Geist Mono';color:#E8794A">3</span><span style="color:#E6E0D8">Dwa regiony poniżej planu, oba w Q3 <span style="color:#8A8279">· s. 11</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1280px;margin:0 auto;padding:0 32px 72px">
+    <div data-a="stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid #2A2622;border-bottom:1px solid #2A2622">
+      <div style="padding:24px 0;display:flex;flex-direction:column;gap:6px"><div style="font-family:'Geist Mono';font-size:12px;color:#8A8279;text-transform:uppercase;letter-spacing:.08em">Grupa</div><div style="font-size:18px">Maksymalnie 12 osób</div></div>
+      <div style="padding:24px 0;display:flex;flex-direction:column;gap:6px"><div style="font-family:'Geist Mono';font-size:12px;color:#8A8279;text-transform:uppercase;letter-spacing:.08em">Wymiar</div><div style="font-size:18px">4 h lub 8 h</div></div>
+      <div style="padding:24px 0;display:flex;flex-direction:column;gap:6px"><div style="font-family:'Geist Mono';font-size:12px;color:#8A8279;text-transform:uppercase;letter-spacing:.08em">Format</div><div style="font-size:18px">Warszawa · online na żywo</div></div>
+      <div style="padding:24px 0;display:flex;flex-direction:column;gap:6px"><div style="font-family:'Geist Mono';font-size:12px;color:#8A8279;text-transform:uppercase;letter-spacing:.08em">Po kursie</div><div style="font-size:18px">Certyfikat Claude School</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:24px;padding-top:32px">
+      <div style="font-size:14px;color:#8A8279;flex:none">Szkolili się u nas:</div>
+      <div style="flex:1;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)">
+        <div data-a="marquee" style="display:flex;gap:12px;width:max-content">
+          <sc-for list="{{ logos }}" as="l" hint-placeholder-count="12"><div style="width:128px;height:44px;flex:none;border-radius:8px;background:repeating-linear-gradient(135deg,#1A1714 0 8px,#201C18 8px 16px);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono';font-size:12px;color:#7A7269">logo {{ l }}</div></sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section style="max-width:1280px;margin:0 auto;padding:72px 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px;align-items:center">
+    <div data-a="reveal" style="display:flex;flex-direction:column;gap:20px">
+      <div style="font-family:'Geist Mono';font-size:13px;color:#E8794A;text-transform:uppercase;letter-spacing:.08em">Jak wyglądają zajęcia</div>
+      <h2 style="margin:0;font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(36px,4.6vw,64px);line-height:1;letter-spacing:-.035em;text-wrap:balance">Poprawiamy jak w szkole. <span style="font-family:'Caveat';font-weight:700;color:#E8794A;font-size:1.15em;letter-spacing:0">Czerwonym długopisem.</span></h2>
+      <p style="margin:0;max-width:480px;font-size:18px;line-height:1.55;color:#C9C1B7">Przynosisz polecenie, którego naprawdę używasz. Trener poprawia je przy Tobie i tłumaczy każdą zmianę. Obok typowy przykład z pierwszej godziny kursu Claude od zera.</p>
+    </div>
+    <div data-a="sheet" style="position:relative;background:#F7F3EA;color:#1F2A44;border-radius:6px;padding:40px 36px 44px 124px;transform:rotate(1.2deg);box-shadow:0 1px 0 #E6DFD0,0 30px 60px rgba(0,0,0,.45);background-image:repeating-linear-gradient(180deg,transparent 0 35px,#D9E2EF 35px 36px);background-position:0 18px">
+      <div style="position:absolute;left:100px;top:0;bottom:0;width:2px;background:#E7A4A0"></div>
+      <div style="position:absolute;top:-14px;right:48px;width:110px;height:30px;background:rgba(232,121,74,.35);transform:rotate(-4deg)"></div>
+      <div style="font-family:'Geist Mono';font-size:12px;color:#7A8499;text-transform:uppercase;letter-spacing:.08em;line-height:36px">Ćwiczenie 1 · mail do klienta</div>
+      <div style="position:relative;font-family:'Geist Mono';font-size:17px;line-height:36px">
+        <span style="position:relative">Napisz maila do klienta o opóźnieniu.<span data-a="strike" style="position:absolute;left:-4px;right:-4px;top:50%;height:3px;background:#D93A2B;border-radius:2px;transform:rotate(-1.5deg)"></span></span>
+      </div>
+      <div data-a="ink" style="position:absolute;left:10px;top:84px;width:84px;text-align:center;font-family:'Caveat';font-weight:700;font-size:22px;color:#D93A2B;transform:rotate(-10deg);line-height:1">Do kogo?</div>
+      <div data-a="ink" style="font-family:'Caveat';font-weight:500;font-size:28px;line-height:36px;color:#D93A2B;padding-left:12px">↳ kto pisze, do kogo, co się stało, jaki ton, co dalej?</div>
+      <div data-a="ink" style="font-family:'Geist Mono';font-size:15px;line-height:36px;color:#1F2A44;margin-top:0">Jesteś kierownikiem projektu. Napisz do Anny z firmy Norex, że wdrożenie przesuwa się o 5 dni roboczych przez dodatkowe testy. Ton spokojny, jedno zdanie przeprosin. Zakończ propozycją krótkiej rozmowy w czwartek.</div>
+      <div data-a="ink" style="font-family:'Caveat';font-weight:500;font-size:26px;line-height:36px;color:#D93A2B;padding-left:12px">teraz Claude wie, czego chcesz ✓</div>
+      <div data-a="grade" aria-label="Ocena 5" style="position:absolute;right:28px;bottom:26px;width:84px;height:84px;border:3px solid #D93A2B;border-radius:50% 46% 52% 48%;display:flex;align-items:center;justify-content:center;font-family:'Caveat';font-weight:700;font-size:60px;color:#D93A2B;transform:rotate(-12deg)">5</div>
+    </div>
+  </section>
+
+  <section id="kursy" style="max-width:1280px;margin:0 auto;padding:72px 32px">
+    <div data-a="reveal" style="display:flex;justify-content:space-between;align-items:end;gap:32px;flex-wrap:wrap;margin-bottom:40px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(36px,4.6vw,64px);line-height:1;letter-spacing:-.035em;max-width:760px;text-wrap:balance">Trzy kursy. Każdy w wersji na pół dnia albo cały.</h2>
+      <p style="margin:0;max-width:360px;color:#A39A90;font-size:16px;line-height:1.5">4 godziny to solidny start. 8 godzin to start plus warsztat na Twoim własnym procesie.</p>
+    </div>
+    <div data-a="line" style="height:1px;background:#3A342E"></div>
+    <div data-a="stagger" style="display:flex;flex-direction:column">
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="3">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px 40px;padding:36px 12px;border-bottom:1px solid #2A2622;align-items:center;border-radius:4px;transition:background .2s" style-hover="background:#1A1714">
+          <div style="display:flex;gap:20px;align-items:baseline">
+            <div style="font-family:'Geist Mono';font-size:14px;color:#E8794A">{{ c.no }}</div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(32px,3.6vw,48px);line-height:1;letter-spacing:-.03em">{{ c.name }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="color:#C9C1B7;font-size:16px;line-height:1.5">{{ c.short }}</div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:#A39A90"><span>{{ c.count }}</span><span>Najbliżej: <span style="color:#F4F1EC">{{ c.nextDate }}</span></span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;justify-content:flex-end;flex-wrap:wrap">
+            <div role="group" aria-label="Wymiar kursu" style="display:flex;background:#1C1916;border:1px solid #2A2622;border-radius:999px;padding:4px;gap:2px">
+              <button onClick="{{ c.set4 }}" aria-pressed="{{ c.is4 }}" style="border:0;border-radius:999px;padding:0 16px;height:40px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s;background:{{ c.bg4 }};color:{{ c.fg4 }}">4 h</button>
+              <button onClick="{{ c.set8 }}" aria-pressed="{{ c.is8 }}" style="border:0;border-radius:999px;padding:0 16px;height:40px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s;background:{{ c.bg8 }};color:{{ c.fg8 }}">8 h</button>
+            </div>
+            <sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:24px;min-width:110px;text-align:right">{{ c.price }}</div></sc-if>
+            <button onClick="{{ c.open }}" aria-label="Program kursu i zapisy" style="width:52px;height:52px;border-radius:50%;border:0;background:#F4F1EC;color:#141210;font-size:20px;cursor:pointer;white-space:nowrap;transition:background .15s,transform .2s" style-hover="background:#E8794A;transform:rotate(-45deg)">→</button>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section aria-hidden="true" style="padding:40px 0;overflow:hidden">
+    <div data-a="drift" style="display:flex;gap:48px;white-space:nowrap;font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(72px,11vw,168px);letter-spacing:-.05em;line-height:1">
+      <span style="color:transparent;-webkit-text-stroke:1.5px #3A342E">Claude od zera</span><span style="color:#E8794A">✳</span><span style="color:transparent;-webkit-text-stroke:1.5px #3A342E">Claude Code</span><span style="color:#E8794A">✳</span><span style="color:transparent;-webkit-text-stroke:1.5px #3A342E">Claude Cowork</span>
+    </div>
+  </section>
+
+  <section style="max-width:1280px;margin:0 auto;padding:40px 32px 72px">
+    <div data-a="reveal" style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:28px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(36px,4.6vw,64px);line-height:1;letter-spacing:-.035em">Plan lekcji <span style="font-family:'Caveat';font-weight:700;color:#E8794A;letter-spacing:0">(wersja 8 h)</span></h2>
+      <p style="margin:0;max-width:380px;color:#A39A90;font-size:16px;line-height:1.5">Tak wygląda sobota na sali. Wersja 4 h to pierwsze dwa bloki, wieczorem od 17:00.</p>
+    </div>
+    <div style="overflow-x:auto">
+      <div data-a="timetable" style="position:relative;min-width:880px;display:grid;grid-template-columns:105fr 15fr 105fr 45fr 105fr 15fr 90fr;border-top:1px solid #3A342E;border-bottom:1px solid #3A342E">
+        <div style="padding:20px 16px 24px;border-right:1px solid #2A2622;display:flex;flex-direction:column;gap:10px;min-height:170px"><div style="font-family:'Geist Mono';font-size:12px;color:#8A8279">9:00</div><div style="font-size:17px;font-weight:600;line-height:1.3">Moduły 1–2</div><div style="font-size:14px;color:#A39A90;line-height:1.4">Podstawy i polecenia, które działają</div></div>
+        <div style="border-right:1px solid #2A2622;background:repeating-linear-gradient(90deg,#1C1916 0 3px,transparent 3px 7px)"></div>
+        <div style="padding:20px 16px 24px;border-right:1px solid #2A2622;display:flex;flex-direction:column;gap:10px"><div style="font-family:'Geist Mono';font-size:12px;color:#8A8279">11:00</div><div style="font-size:17px;font-weight:600;line-height:1.3">Moduły 3–4</div><div style="font-size:14px;color:#A39A90;line-height:1.4">Twoje pliki, Projekty, instrukcje</div></div>
+        <div style="padding:20px 12px 24px;border-right:1px solid #2A2622;background:repeating-linear-gradient(90deg,#1C1916 0 3px,transparent 3px 7px);display:flex;flex-direction:column;gap:10px"><div style="font-family:'Geist Mono';font-size:12px;color:#8A8279">12:45</div><div style="font-family:'Caveat';font-size:26px;color:#E8794A;line-height:1">obiad</div></div>
+        <div style="padding:20px 16px 24px;border-right:1px solid #2A2622;display:flex;flex-direction:column;gap:10px"><div style="font-family:'Geist Mono';font-size:12px;color:#8A8279">13:30</div><div style="font-size:17px;font-weight:600;line-height:1.3">Moduły 5–6</div><div style="font-size:14px;color:#A39A90;line-height:1.4">Zaawansowane, research, dane</div></div>
+        <div style="border-right:1px solid #2A2622;background:repeating-linear-gradient(90deg,#1C1916 0 3px,transparent 3px 7px)"></div>
+        <div style="padding:20px 16px 24px;display:flex;flex-direction:column;gap:10px;background:#E8794A;color:#141210"><div style="font-family:'Geist Mono';font-size:12px">15:30 – 17:00</div><div style="font-size:17px;font-weight:700;line-height:1.3">Warsztat</div><div style="font-size:14px;line-height:1.4">Twój proces od A do Z, z trenerem</div></div>
+        <div data-a="bell" aria-hidden="true" style="position:absolute;top:-10px;bottom:-10px;left:0;width:2px;background:#F4F1EC;pointer-events:none"><div style="position:absolute;top:-6px;left:-5px;width:12px;height:12px;border-radius:50%;background:#F4F1EC"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="terminy" style="max-width:1280px;margin:0 auto;padding:72px 32px">
+    <div data-a="reveal" style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:28px">
+      <h2 style="margin:0;font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(36px,4.6vw,64px);line-height:1;letter-spacing:-.035em">Najbliższe terminy</h2>
+      <div role="group" aria-label="Filtruj terminy" style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+          <button onClick="{{ f.pick }}" aria-pressed="{{ f.on }}" style="border:1px solid #3A342E;border-radius:999px;padding:0 18px;height:44px;font-size:14px;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s;background:{{ f.bg }};color:{{ f.fg }}">{{ f.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div data-a="stagger" style="display:flex;flex-direction:column;border-top:1px solid #2A2622">
+      <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+        <button onClick="{{ r.pick }}" style="display:grid;grid-template-columns:100px minmax(0,2fr) minmax(0,1.3fr) 56px minmax(0,1fr) 44px;gap:20px;align-items:center;padding:22px 8px;border:0;border-bottom:1px solid #2A2622;background:transparent;color:#F4F1EC;text-align:left;cursor:pointer;white-space:normal;font:inherit;transition:background .15s" style-hover="background:#1C1916">
+          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:40px;letter-spacing:-.03em;line-height:1">{{ r.day }}</span><span style="font-size:14px;color:#A39A90">{{ r.mon }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:19px;font-weight:500">{{ r.courseName }}</div><div style="font-size:14px;color:#8A8279">{{ r.wd }}, {{ r.time }}</div></div>
+          <div style="font-size:15px;color:#C9C1B7">{{ r.fmt }}</div>
+          <div style="font-family:'Geist Mono';font-size:14px">{{ r.hours }}</div>
+          <div style="font-size:14px;color:{{ r.seatsColor }}">{{ r.seatsLabel }}</div>
+          <div style="width:44px;height:44px;border-radius:50%;border:1px solid #4A433C;display:flex;align-items:center;justify-content:center;font-size:18px">→</div>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+  <section id="lekcja" style="max-width:1280px;margin:0 auto;padding:72px 32px">
+    <div data-a="reveal" style="background:#E8794A;color:#141210;border-radius:32px;padding:clamp(32px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:48px;align-items:center;overflow:hidden">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="font-family:'Geist Mono';font-size:13px;text-transform:uppercase;letter-spacing:.08em">Za 0 zł</div>
+        <h2 style="margin:0;font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(40px,5vw,72px);line-height:.95;letter-spacing:-.04em;text-wrap:balance">Pierwsza lekcja Claude. Dziś wieczorem.</h2>
+        <p style="margin:0;font-size:18px;line-height:1.5;max-width:520px">45 minut wideo i jedno ćwiczenie na Twoim mailu, dokumencie albo raporcie. Sprawdzisz, czy nasz sposób pracy jest dla Ciebie, zanim zapłacisz za kurs.</p>
+        <sc-if value="{{ leadOpen }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:10px;padding-top:8px">
+            <label for="lead-email" style="font-size:14px;font-weight:600">Adres e-mail</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <input id="lead-email" type="email" onChange="{{ onEmail }}" placeholder="imie@firma.pl" style="flex:1;min-width:220px;background:#F4F1EC;border:0;border-radius:999px;padding:0 24px;height:56px;font-size:17px;color:#141210;outline:none">
+              <button onClick="{{ submitLead }}" style="background:#141210;color:#F4F1EC;border:0;border-radius:999px;padding:0 28px;height:56px;font-size:17px;font-weight:600;cursor:pointer;white-space:nowrap">Wyślij lekcję</button>
+            </div>
+            <div style="font-size:13px">Zero spamu. Wypiszesz się jednym kliknięciem.</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ leadDone }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#141210;color:#F4F1EC;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:26px">Lekcja jest w drodze.</div>
+            <div style="color:#C9C1B7;font-size:15px">Sprawdź skrzynkę {{ email }}.</div>
+          </div>
+        </sc-if>
+      </div>
+      <div style="position:relative;min-height:380px">
+        <div data-a="float" style="position:absolute;right:8%;top:0;width:72%;transform:rotate(4deg);background:#141210;border-radius:20px;padding:14px;box-shadow:0 30px 60px rgba(60,20,0,.35)">
+          <div style="aspect-ratio:16/10;border-radius:12px;background:repeating-linear-gradient(135deg,#1E1B18 0 10px,#231F1B 10px 20px);display:flex;align-items:center;justify-content:center;position:relative">
+            <div style="width:64px;height:64px;border-radius:50%;background:#E8794A;display:flex;align-items:center;justify-content:center;font-size:22px;color:#141210;padding-left:4px">▶</div>
+            <div style="position:absolute;left:12px;top:12px;font-family:'Geist Mono';font-size:11px;color:#8A8279">kadr z lekcji wideo</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 4px 4px;color:#F4F1EC;font-size:14px"><span style="font-family:'Geist Mono';color:#E8794A">00:00</span><div style="flex:1;height:3px;border-radius:2px;background:#3A342E;position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:32%;background:#E8794A;border-radius:2px"></div></div><span style="font-family:'Geist Mono';color:#8A8279">45:00</span></div>
+        </div>
+        <div data-a="float" style="position:absolute;left:0;bottom:0;width:62%;transform:rotate(-3deg);background:#F4F1EC;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px;box-shadow:0 24px 48px rgba(60,20,0,.3)">
+          <div style="font-family:'Geist Mono';font-size:12px;color:#6B635A;text-transform:uppercase;letter-spacing:.08em">Ćwiczenie po lekcji</div>
+          <div style="font-size:17px;font-weight:600;line-height:1.35">Przepisz jeden swój mail tak, żeby Claude napisał go w Twoim stylu.</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="background:#141210;color:#F4F1EC;border-radius:999px;padding:4px 10px;font-size:12px">10 min</span><span style="border:1px solid #C9C1B7;border-radius:999px;padding:4px 10px;font-size:12px">Twój mail</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trenerzy" style="max-width:1280px;margin:0 auto;padding:72px 32px">
+    <h2 data-a="reveal" style="margin:0 0 40px;font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(36px,4.6vw,64px);line-height:1;letter-spacing:-.035em;max-width:760px;text-wrap:balance">Uczą ludzie, którzy pracują z Claude codziennie.</h2>
+    <div data-a="stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px">
+      <sc-for list="{{ trainers }}" as="t" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="aspect-ratio:4/5;border-radius:24px;overflow:hidden;position:relative;border:1px solid #2E2A25">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#1E1B18 0 10px,#231F1B 10px 20px);transition:transform .6s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.04)"></div>
+            <div style="position:absolute;left:16px;top:16px;font-family:'Geist Mono';font-size:12px;color:#8A8279">portret trenera</div>
+            <div style="position:absolute;left:16px;bottom:16px;background:#F4F1EC;color:#141210;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600">{{ t.role }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:24px">{{ t.name }}</div>
+            <div style="font-size:15px;color:#A39A90;line-height:1.5">{{ t.bio }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1280px;margin:0 auto;padding:72px 32px">
+    <div data-a="stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px">
+      <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="3">
+        <div style="border:1px solid #2A2622;border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:28px;justify-content:space-between;background:#171512">
+          <div style="font-family:'Bricolage Grotesque';font-size:64px;line-height:.5;color:#E8794A;height:28px">“</div>
+          <div style="font-family:'Bricolage Grotesque';font-weight:500;font-size:23px;line-height:1.28;letter-spacing:-.01em;text-wrap:pretty;flex:1">{{ q.text }}</div>
+          <div style="display:flex;align-items:center;gap:12px;border-top:1px solid #2A2622;padding-top:20px">
+            <div style="width:44px;height:44px;border-radius:50%;background:repeating-linear-gradient(135deg,#1E1B18 0 6px,#2A2622 6px 12px)"></div>
+            <div><div style="font-size:15px;font-weight:600">{{ q.who }}</div><div style="font-size:14px;color:#8A8279">{{ q.role }}</div></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="firmy" style="max-width:1280px;margin:0 auto;padding:72px 32px">
+    <div data-a="reveal" style="border:1px solid #2A2622;border-radius:32px;padding:clamp(32px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;background:#1C1916">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="font-family:'Geist Mono';font-size:13px;color:#E8794A;text-transform:uppercase;letter-spacing:.08em">Dla firm</div>
+        <h2 style="margin:0;font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(36px,4.4vw,60px);line-height:1;letter-spacing:-.035em;text-wrap:balance">Szkolenie zamknięte dla Twojego zespołu.</h2>
+        <p style="margin:0;font-size:18px;line-height:1.5;color:#C9C1B7">Program układamy pod Wasze procesy i dane. U Was w biurze, w naszej sali albo online.</p>
+        <button onClick="{{ toB2bForm }}" style="align-self:flex-start;background:#E8794A;color:#141210;border:0;border-radius:999px;padding:0 28px;height:56px;font-size:16px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s" style-hover="background:#F4F1EC">Umów bezpłatną rozmowę</button>
+      </div>
+      <div data-a="stagger" style="display:flex;flex-direction:column">
+        <div style="display:flex;gap:20px;padding:20px 0;border-bottom:1px solid #2A2622"><div style="font-family:'Geist Mono';color:#E8794A">01</div><div style="font-size:17px;line-height:1.45">Analiza przed szkoleniem: które zadania w zespole oddać Claude</div></div>
+        <div style="display:flex;gap:20px;padding:20px 0;border-bottom:1px solid #2A2622"><div style="font-family:'Geist Mono';color:#E8794A">02</div><div style="font-size:17px;line-height:1.45">Ćwiczenia na Waszych dokumentach, z zasadami bezpieczeństwa danych</div></div>
+        <div style="display:flex;gap:20px;padding:20px 0;border-bottom:1px solid #2A2622"><div style="font-family:'Geist Mono';color:#E8794A">03</div><div style="font-size:17px;line-height:1.45">Konfiguracja Projektów i instrukcji dla całego zespołu</div></div>
+        <div style="display:flex;gap:20px;padding:20px 0"><div style="font-family:'Geist Mono';color:#E8794A">04</div><div style="font-size:17px;line-height:1.45">Raport po szkoleniu i 30 dni wsparcia trenera</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:960px;margin:0 auto;padding:72px 32px 96px">
+    <h2 data-a="reveal" style="margin:0 0 32px;font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(32px,4vw,52px);letter-spacing:-.03em">Pytania</h2>
+    <div style="display:flex;flex-direction:column;border-top:1px solid #2A2622">
+      <sc-for list="{{ faq }}" as="f" hint-placeholder-count="4">
+        <div style="border-bottom:1px solid #2A2622">
+          <button onClick="{{ f.toggle }}" aria-expanded="{{ f.open }}" style="width:100%;display:flex;justify-content:space-between;gap:24px;padding:24px 0;background:none;border:0;color:#F4F1EC;text-align:left;cursor:pointer;white-space:normal;font-size:19px;font-weight:500"><span>{{ f.q }}</span><span style="color:#E8794A;font-size:24px;line-height:1">{{ f.sign }}</span></button>
+          <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}"><div style="padding:0 0 24px;color:#C9C1B7;font-size:16px;line-height:1.6;max-width:720px">{{ f.a }}</div></sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isCourse }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Strona kursu">
+  <section style="max-width:1280px;margin:0 auto;padding:32px 32px 0">
+    <nav aria-label="Ścieżka" style="display:flex;gap:10px;align-items:center;font-size:14px;color:#8A8279"><button onClick="{{ goHome }}" style="background:none;border:0;color:#A39A90;cursor:pointer;white-space:nowrap;padding:0;height:44px;font-size:14px" style-hover="color:#F4F1EC">← Kursy</button><span>/</span><span style="color:#F4F1EC">{{ cur.name }}</span></nav>
+  </section>
+  <section style="max-width:1280px;margin:0 auto;padding:24px 32px 64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:48px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div data-a="fade" style="font-family:'Geist Mono';font-size:14px;color:#E8794A">Kurs {{ cur.no }} · stacjonarnie lub online</div>
+      <h1 style="margin:0;font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(52px,6.6vw,100px);line-height:.95;letter-spacing:-.045em"><span style="display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.04em"><span data-a="word" style="display:inline-block">{{ cur.name }}</span></span></h1>
+      <p data-a="fade" style="margin:0;font-size:20px;line-height:1.5;color:#C9C1B7;max-width:600px;text-wrap:pretty">{{ cur.lead }}</p>
+      <div data-a="fade" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div role="group" aria-label="Wymiar kursu" style="display:flex;background:#1C1916;border:1px solid #2A2622;border-radius:999px;padding:5px;gap:2px">
+          <button onClick="{{ cSet4 }}" style="border:0;border-radius:999px;padding:0 22px;height:44px;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s;background:{{ cBg4 }};color:{{ cFg4 }}">4 godziny</button>
+          <button onClick="{{ cSet8 }}" style="border:0;border-radius:999px;padding:0 22px;height:44px;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s;background:{{ cBg8 }};color:{{ cFg8 }}">8 godzin</button>
+        </div>
+        <div style="font-size:15px;color:#A39A90">{{ cDurNote }}</div>
+      </div>
+    </div>
+    <div style="position:relative;min-height:440px">
+      <div data-a="card" style="position:absolute;inset:0 0 60px 60px;border-radius:28px;overflow:hidden;border:1px solid #2E2A25">
+        <div data-a="parallax" style="position:absolute;inset:-40px 0;background:repeating-linear-gradient(135deg,#1E1B18 0 10px,#231F1B 10px 20px)"></div>
+        <div style="position:absolute;right:20px;top:20px;font-family:'Geist Mono';font-size:12px;color:#8A8279">zdjęcie z zajęć</div>
+      </div>
+      <div data-a="card" style="position:absolute;left:0;bottom:0;width:min(420px,92%)">
+        <div data-a="float" style="background:#0E0D0B;border:1px solid #2E2A25;border-radius:20px;overflow:hidden;box-shadow:0 24px 48px rgba(0,0,0,.5);font-size:14px;line-height:1.5">
+          <sc-if value="{{ isZero }}" hint-placeholder-val="{{ true }}">
+            <div style="padding:12px 16px;border-bottom:1px solid #2A2622;font-family:'Geist Mono';font-size:12px;color:#8A8279">Projekt · Oferty handlowe</div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+              <div style="font-family:'Geist Mono';font-size:12px;color:#8A8279">Instrukcje projektu</div>
+              <div data-a="reply" style="background:#1C1916;border-radius:10px;padding:10px 12px;color:#E6E0D8">Piszesz w imieniu działu sprzedaży. Ton: rzeczowy, bez superlatywów.</div>
+              <div data-a="reply" style="background:#1C1916;border-radius:10px;padding:10px 12px;color:#E6E0D8">Zawsze kończ jednym konkretnym następnym krokiem.</div>
+              <div data-a="reply" style="display:flex;gap:8px;flex-wrap:wrap"><span style="border:1px solid #3A342E;border-radius:6px;padding:3px 8px;font-family:'Geist Mono';font-size:12px;color:#C9C1B7">cennik_2026.pdf</span><span style="border:1px solid #3A342E;border-radius:6px;padding:3px 8px;font-family:'Geist Mono';font-size:12px;color:#C9C1B7">wzór_oferty.docx</span></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isCode }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:12px 16px;border-bottom:1px solid #2A2622;font-family:'Geist Mono';font-size:12px;color:#8A8279">~/kalkulator-wycen</div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:6px;font-family:'Geist Mono';font-size:13px">
+              <div style="color:#F4F1EC"><span style="color:#E8794A">›</span> Dodaj formularz wyceny i eksport do PDF</div>
+              <div data-a="reply" style="color:#8A8279">● Czytam strukturę projektu…</div>
+              <div data-a="reply" style="color:#A5C98A">+ src/Wycena.jsx <span style="color:#8A8279">(84 linie)</span></div>
+              <div data-a="reply" style="color:#A5C98A">+ src/eksport.js <span style="color:#8A8279">(31 linii)</span></div>
+              <div data-a="reply" style="color:#E8794A">✓ Gotowe. Uruchom: npm run dev</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isCowork }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:12px 16px;border-bottom:1px solid #2A2622;font-family:'Geist Mono';font-size:12px;color:#8A8279">Zadanie · Zestawienie faktur z września</div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+              <div data-a="reply" style="display:flex;gap:10px;color:#E6E0D8"><span style="color:#E8794A">✓</span>Przeczytano 47 plików PDF z folderu Faktury</div>
+              <div data-a="reply" style="display:flex;gap:10px;color:#E6E0D8"><span style="color:#E8794A">✓</span>Utworzono arkusz zestawienie_09.xlsx</div>
+              <div data-a="reply" style="display:flex;gap:10px;color:#E6E0D8"><span style="color:#E8794A">✓</span>Oznaczono 3 faktury po terminie płatności</div>
+              <div data-a="reply" style="display:flex;gap:10px;color:#8A8279"><span>○</span>Czeka na Twoją akceptację</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1280px;margin:0 auto;padding:0 32px 96px;display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+    <div style="flex:1 1 560px;display:flex;flex-direction:column;gap:64px;min-width:0">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <h2 data-a="reveal" style="margin:0;font-family:'Bricolage Grotesque';font-weight:700;font-size:44px;letter-spacing:-.03em">Program · {{ cModCount }}</h2>
+        <div data-a="stagger" style="display:flex;flex-direction:column;border-top:1px solid #2A2622">
+          <sc-for list="{{ cModules }}" as="m" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:56px 1fr auto;gap:16px;padding:22px 0;border-bottom:1px solid #2A2622;align-items:start">
+              <div style="font-family:'Geist Mono';font-size:14px;color:#E8794A;padding-top:4px">{{ m.n }}</div>
+              <div style="display:flex;flex-direction:column;gap:6px"><div style="font-size:20px;font-weight:500">{{ m.t }}</div><div style="font-size:15px;color:#A39A90;line-height:1.5">{{ m.d }}</div></div>
+              <sc-if value="{{ m.extra }}" hint-placeholder-val="{{ false }}"><div style="font-family:'Geist Mono';font-size:11px;color:#E8794A;border:1px solid #5A3A2A;border-radius:999px;padding:4px 10px">tylko 8 h</div></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div data-a="stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+        <div style="background:#1C1916;border:1px solid #2A2622;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:16px">
+          <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:26px">Dla kogo</div>
+          <sc-for list="{{ cFor }}" as="x" hint-placeholder-count="3"><div style="display:flex;gap:12px;font-size:16px;line-height:1.45;color:#C9C1B7"><span style="color:#E8794A">●</span><span>{{ x }}</span></div></sc-for>
+        </div>
+        <div style="position:relative;overflow:hidden;background:#1C1916;border:1px solid #2A2622;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:16px">
+          <div aria-hidden="true" style="position:absolute;right:18px;top:18px;border:2px solid #E8794A;color:#E8794A;border-radius:6px;padding:4px 10px;font-family:'Geist Mono';font-size:12px;letter-spacing:.14em;transform:rotate(8deg);opacity:.85">ZALICZONE</div>
+          <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:26px">Wychodzisz z</div>
+          <sc-for list="{{ cOut }}" as="x" hint-placeholder-count="3"><div style="display:flex;gap:12px;font-size:16px;line-height:1.45;color:#C9C1B7"><span style="color:#E8794A">✓</span><span>{{ x }}</span></div></sc-for>
+        </div>
+      </div>
+      <div data-a="reveal" style="display:flex;flex-direction:column;gap:16px">
+        <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:26px">Zobacz też</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px">
+          <sc-for list="{{ others }}" as="o" hint-placeholder-count="2">
+            <button onClick="{{ o.open }}" style="display:flex;justify-content:space-between;align-items:center;gap:16px;background:transparent;border:1px solid #2A2622;border-radius:20px;padding:20px 22px;color:#F4F1EC;text-align:left;cursor:pointer;white-space:normal;transition:border-color .15s" style-hover="border-color:#E8794A"><span style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Geist Mono';font-size:12px;color:#E8794A">{{ o.no }}</span><span style="font-size:18px;font-weight:600">{{ o.name }}</span></span><span style="font-size:18px">→</span></button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <aside style="flex:1 1 340px;max-width:420px;position:sticky;top:88px;background:#F4F1EC;color:#141210;border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+        <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:22px;letter-spacing:-.02em">Zapisy</div>
+        <sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}"><div style="text-align:right"><div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:32px;letter-spacing:-.03em;line-height:1">{{ cPrice }}</div><div style="font-size:12px;color:#6B635A">netto / osoba · {{ cHours }}</div></div></sc-if>
+      </div>
+      <sc-if value="{{ signupOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:14px;font-weight:600">1. Wybierz termin</div>
+          <sc-if value="{{ hasSessions }}" hint-placeholder-val="{{ true }}">
+            <div role="radiogroup" aria-label="Termin" style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ cSessions }}" as="x" hint-placeholder-count="2">
+                <button role="radio" aria-checked="{{ x.on }}" onClick="{{ x.select }}" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:2px solid {{ x.bd }};background:{{ x.bg }};color:{{ x.fg }};text-align:left;cursor:pointer;white-space:normal;transition:border-color .15s">
+                  <span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:600">{{ x.day }} {{ x.mon }} · {{ x.wd }}</span><span style="font-size:13px;opacity:.75">{{ x.fmt }}, {{ x.time }}</span></span>
+                  <span style="font-size:12px;font-weight:600;color:#B4471B">{{ x.seatsShort }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noSessions }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;color:#4A433C;background:#E8E2D9;border-radius:12px;padding:14px">Brak terminów w tym wymiarze. Zmień wymiar albo zostaw e-mail, damy znać o nowej dacie.</div></sc-if>
+          <div style="font-size:14px;font-weight:600">2. Twoje dane</div>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#4A433C">Imię i nazwisko<input style="height:48px;border:1px solid #D6CFC5;border-radius:12px;padding:0 14px;font-size:16px;background:#FFFFFF;color:#141210;outline:none"></label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#4A433C">E-mail<input type="email" style="height:48px;border:1px solid #D6CFC5;border-radius:12px;padding:0 14px;font-size:16px;background:#FFFFFF;color:#141210;outline:none"></label>
+          <button onClick="{{ submitSignup }}" style="height:56px;border:0;border-radius:999px;background:#141210;color:#F4F1EC;font-size:16px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s" style-hover="background:#E8794A;color:#141210">Rezerwuję miejsce</button>
+          <div style="font-size:12px;color:#6B635A;line-height:1.5">Płatność po potwierdzeniu. Faktura VAT. Bezpłatna rezygnacja do 7 dni przed terminem.</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ signupDone }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:10px;padding:8px 0">
+          <div style="width:48px;height:48px;border-radius:50%;background:#E8794A;display:flex;align-items:center;justify-content:center;font-size:22px">✓</div>
+          <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:26px;line-height:1.1">Miejsce zarezerwowane.</div>
+          <div style="font-size:15px;color:#4A433C">{{ cur.name }} · {{ selectedLabel }}. Potwierdzenie i fakturę wyślemy mailem.</div>
+        </div>
+      </sc-if>
+    </aside>
+  </section>
+</main>
+</sc-if>
+
+<footer style="border-top:1px solid #2A2622">
+  <div style="max-width:1280px;margin:0 auto;padding:48px 32px;display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;font-size:14px;color:#8A8279">
+    <div style="display:flex;flex-direction:column;gap:8px"><div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:22px;color:#F4F1EC">Claude School</div><div>Szkolenia z Claude · Warszawa i online</div></div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap"><span>kontakt@claudeschool.pl</span><span>Regulamin</span><span>Polityka prywatności</span></div>
+  </div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startPage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;course&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;'home'|'course'&quot;},&quot;showPrices&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  pal = { onBg: '#F4F1EC', onFg: '#141210', offBg: 'transparent', offFg: '#C9C1B7', low: '#F0A07A', ok: '#A39A90', selBg: '#2A2622', selBd: '#E8794A', bd: '#2A2622' };
+  courses = [
+    { id: 'zero', no: '01', name: 'Claude od zera', short: 'Pierwszy kontakt z Claude, po którym od razu oddajesz mu realną pracę: maile, raporty, dokumenty.',
+      lead: 'Uczysz się na własnych plikach i zadaniach. Wychodzisz ze skonfigurowanym środowiskiem pracy i zestawem poleceń, których użyjesz w poniedziałek rano.',
+      price: { 4: 690, 8: 1290 },
+      m: [['Jak działa Claude i gdzie się myli', 'Modele, limity, halucynacje. Kiedy ufać, kiedy sprawdzać.'], ['Polecenia, które działają', 'Kontekst, rola, przykład, format. Jedna struktura na każde zadanie.'], ['Praca na Twoich plikach', 'PDF, arkusze, notatki ze spotkań. Streszczenia z odwołaniem do źródła.'], ['Projekty i stałe instrukcje', 'Claude, który zna Twoją pracę i nie wymaga tłumaczenia od nowa.'], ['Artefakty', 'Dokumenty, tabele i proste narzędzia budowane w rozmowie.'], ['Research i weryfikacja', 'Wyszukiwanie w sieci, porównywanie źródeł, sprawdzanie faktów.'], ['Bezpieczeństwo danych', 'Co wolno wkleić, czego nie. Zasady dla Ciebie i zespołu.'], ['Warsztat: Twój proces', 'Bierzesz jedno zadanie z pracy i przerabiasz je od A do Z.']],
+      for: ['Korzystasz z AI okazjonalnie albo wcale', 'Chcesz przestać kopiować prompty z internetu', 'Firma wdraża Claude i potrzebujesz solidnych podstaw'],
+      out: ['Zestaw sprawdzonych poleceń do Twoich zadań', 'Projekt z instrukcjami skonfigurowany pod Twoją pracę', 'Certyfikat ukończenia Claude School'] },
+    { id: 'code', no: '02', name: 'Claude Code od podstaw', short: 'Budujesz działające narzędzia i prototypy, opisując je po polsku. Bez etatu programisty.',
+      lead: 'Zaczynasz od pustego terminala, kończysz z aplikacją opublikowaną w internecie. Po drodze uczysz się czytać zmiany, cofać błędy i prowadzić agenta krok po kroku.',
+      price: { 4: 890, 8: 1590 },
+      m: [['Terminal bez stresu', 'Instalacja, pierwsze komendy, jak czytać odpowiedzi agenta.'], ['Pierwsza aplikacja z opisu', 'Od pomysłu do działającego ekranu w 40 minut.'], ['Kontrola zmian', 'Czytanie diffów, cofanie, poprawianie błędów.'], ['Publikacja', 'Twoja aplikacja pod własnym adresem w internecie.'], ['Git i wersje', 'Historia projektu, którą rozumiesz i możesz cofnąć.'], ['Dane i API', 'Pliki, arkusze, zewnętrzne źródła, prosty dashboard.'], ['CLAUDE.md i automatyzacje', 'Stałe instrukcje, własne komendy, powtarzalne zadania.'], ['Warsztat: Twoje MVP', 'Budujesz narzędzie, którego naprawdę potrzebujesz.']],
+      for: ['Masz pomysł na narzędzie, ale nie programujesz', 'Chcesz prototypować bez czekania na dział IT', 'Programujesz i chcesz sprawdzić pracę z agentem'],
+      out: ['Działającą aplikację opublikowaną w sieci', 'Repozytorium z historią zmian, którą rozumiesz', 'Certyfikat ukończenia Claude School'] },
+    { id: 'cowork', no: '03', name: 'Claude Cowork', short: 'Oddajesz Claude całe zadania na komputerze: porządkowanie plików, zestawienia, raporty.',
+      lead: 'Przestajesz pisać kolejne prompty. Uczysz się delegować zadanie tak, jak zrobiłbyś to z asystentem: cel, pliki, granice i kontrola wyniku.',
+      price: { 4: 790, 8: 1390 },
+      m: [['Agent a czat', 'Czym różni się delegowanie zadania od rozmowy.'], ['Jak zlecić zadanie', 'Cel, materiały, granice, kryteria odbioru.'], ['Pliki i foldery', 'Porządkowanie, zestawienia, raporty z wielu dokumentów.'], ['Kontrola wyniku', 'Jak sprawdzać i akceptować pracę agenta.'], ['Konektory', 'Poczta, kalendarz, dysk. Claude z dostępem do narzędzi.'], ['Zadania cykliczne', 'Raport w każdy poniedziałek bez Twojego udziału.'], ['Uprawnienia i bezpieczeństwo', 'Do czego dać dostęp, a do czego nigdy.'], ['Warsztat: tydzień dla agenta', 'Wybierasz trzy zadania i oddajesz je na stałe.']],
+      for: ['Toniesz w powtarzalnych zadaniach na plikach i mailach', 'Chcesz delegować całe zadania, nie pojedyncze pytania', 'Odpowiadasz za wdrożenie AI w zespole'],
+      out: ['Trzy zadania oddane agentowi na stałe', 'Zasady bezpieczeństwa gotowe dla zespołu', 'Certyfikat ukończenia Claude School'] }
+  ];
+  sess = [
+    ['s1', 'zero', 8, '10', 'paź', 'sobota', '9:00–17:00', 'Warszawa · sala', 3],
+    ['s2', 'code', 8, '17', 'paź', 'sobota', '9:00–17:00', 'Warszawa · sala', 4],
+    ['s3', 'cowork', 4, '21', 'paź', 'wtorek', '17:00–21:00', 'Online na żywo', 9],
+    ['s4', 'zero', 4, '23', 'paź', 'czwartek', '17:00–21:00', 'Online na żywo', 7],
+    ['s5', 'code', 4, '28', 'paź', 'wtorek', '17:00–21:00', 'Online na żywo', 6],
+    ['s6', 'cowork', 8, '7', 'lis', 'sobota', '9:00–17:00', 'Warszawa · sala', 8],
+    ['s7', 'zero', 8, '14', 'lis', 'sobota', '9:00–17:00', 'Warszawa · sala', 10],
+    ['s8', 'code', 8, '21', 'lis', 'sobota', '9:00–17:00', 'Warszawa · sala', 11],
+    ['s9', 'zero', 4, '2', 'gru', 'wtorek', '17:00–21:00', 'Online na żywo', 12],
+    ['s10', 'cowork', 4, '4', 'gru', 'czwartek', '17:00–21:00', 'Online na żywo', 12]
+  ].map(a => ({ id: a[0], c: a[1], h: a[2], day: a[3], mon: a[4], wd: a[5], time: a[6], fmt: a[7], seats: a[8] }));
+  trainers = [
+    { name: 'Imię Nazwisko', role: 'Claude od zera · Cowork', bio: 'Wdraża Claude w działach sprzedaży i HR. Prowadzi szkolenia od 2023 roku.' },
+    { name: 'Imię Nazwisko', role: 'Claude Code', bio: 'Product engineer. Buduje wewnętrzne narzędzia z Claude Code dla zespołów nietechnicznych.' },
+    { name: 'Imię Nazwisko', role: 'Szkolenia dla firm', bio: 'Projektuje programy zamknięte pod procesy klienta. Wcześniej konsultant ds. automatyzacji.' }
+  ];
+  quotes = [
+    { text: 'Pierwszy raport kwartalny po kursie zrobiłam w godzinę. Wcześniej zajmował mi dwa dni.', who: 'Imię N.', role: 'Analityczka, branża FMCG' },
+    { text: 'Nie umiem programować, a mam działające narzędzie do wycen. Zespół używa go codziennie.', who: 'Imię N.', role: 'Właściciel firmy remontowej' },
+    { text: 'Szkolenie zamknięte ułożone pod nasze procesy. Po miesiącu Claude robi za nas trzy raporty.', who: 'Imię N.', role: 'Dyrektorka operacyjna' }
+  ];
+  faqs = [
+    ['Czy muszę znać AI albo programowanie?', 'Nie. Każdy kurs zaczyna od podstaw. Do Claude Code wystarczy, że umiesz obsługiwać komputer.'],
+    ['Czy potrzebuję płatnego konta Claude?', 'Na czas kursu dajemy dostęp. Po kursie doradzimy, który plan ma sens w Twojej pracy.'],
+    ['Czym różni się wersja 4 h od 8 h?', 'Wersja 4 h to cztery moduły podstaw. Wersja 8 h dodaje cztery moduły zaawansowane i warsztat na Twoim własnym procesie.'],
+    ['Czy wystawiacie fakturę?', 'Tak, fakturę VAT na firmę lub osobę prywatną. Możliwe finansowanie z KFS.']
+  ];
+  state = { page: this.props.startPage ?? 'home', courseId: 'zero', durs: { zero: 8, code: 8, cowork: 4 }, filter: 'all', leadDone: false, email: '', faq: 0, sessionId: null, signupDone: false };
+
+  componentDidMount() { try { history.scrollRestoration = 'manual'; } catch (e) {} this.waitGsap(() => this.animate()); }
+  componentDidUpdate(pp, ps) {
+    if (ps.page !== this.state.page || ps.courseId !== this.state.courseId) { if (window.ScrollTrigger) window.ScrollTrigger.clearScrollMemory && window.ScrollTrigger.clearScrollMemory('manual'); window.scrollTo(0, 0); this.waitGsap(() => { this.animate(); window.scrollTo(0, 0); }); }
+    else if (ps.filter !== this.state.filter && window.ScrollTrigger) setTimeout(() => window.ScrollTrigger.refresh(), 50);
+  }
+  componentWillUnmount() { this.ctx && this.ctx.revert(); }
+  waitGsap(cb) { let n = 0; const t = () => { if (window.gsap && window.ScrollTrigger) setTimeout(cb, 30); else if (n++ < 120) setTimeout(t, 50); }; t(); }
+  animate() {
+    const g = window.gsap; g.registerPlugin(window.ScrollTrigger);
+    this.ctx && this.ctx.revert();
+    if ((this.props.motion ?? true) === false || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const q = s => g.utils.toArray(s);
+    this.ctx = g.context(() => {
+      const tl = g.timeline({ defaults: { ease: 'power4.out' } });
+      if (q('[data-a="word"]').length) tl.from('[data-a="word"]', { yPercent: 110, duration: 1, stagger: 0.05 });
+      if (q('[data-a="fade"]').length) tl.from('[data-a="fade"]', { y: 24, autoAlpha: 0, duration: 0.8, stagger: 0.08 }, '-=0.7');
+      if (q('[data-a="card"]').length) tl.from('[data-a="card"]', { y: 80, autoAlpha: 0, rotate: i => [-3, 4, -2][i % 3], duration: 1.1, stagger: 0.14, ease: 'expo.out' }, '-=0.9');
+      q('[data-a="float"]').forEach((el, i) => g.to(el, { y: i % 2 ? 10 : -10, duration: 2.6 + i * 0.4, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.4 }));
+      q('[data-a="pulse"]').forEach(el => g.to(el, { scale: 1.8, autoAlpha: 0.3, duration: 0.9, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
+      q('[data-a="caret"]').forEach(el => g.to(el, { autoAlpha: 0, duration: 0.5, repeat: -1, yoyo: true, ease: 'steps(1)' }));
+      q('[data-a="typed"]').forEach(el => {
+        const full = el.dataset.text, o = { n: 0 }; el.textContent = '';
+        const t2 = g.timeline({ delay: 1.6, repeat: -1, repeatDelay: 3 });
+        t2.to(o, { n: full.length, duration: 2.4, ease: 'none', onUpdate: () => { el.textContent = full.slice(0, Math.round(o.n)); } })
+          .fromTo('[data-a="reply"]', { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.35 }, '+=0.4')
+          .to('[data-a="reply"]', { autoAlpha: 0, duration: 0.4 }, '+=3.5')
+          .set(o, { n: 0, onComplete: () => { el.textContent = ''; } });
+      });
+      q('[data-a="marquee"]').forEach(el => g.to(el, { xPercent: -50, duration: 32, ease: 'none', repeat: -1 }));
+      q('[data-a="parallax"]').forEach(el => g.fromTo(el, { y: -30 }, { y: 30, ease: 'none', scrollTrigger: { trigger: el.parentNode, start: 'top bottom', end: 'bottom top', scrub: true } }));
+      q('[data-a="reveal"]').forEach(el => g.from(el, { y: 56, autoAlpha: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } }));
+      q('[data-a="stagger"]').forEach(el => g.from(el.children, { y: 36, autoAlpha: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } }));
+      q('[data-a="line"]').forEach(el => g.from(el, { scaleX: 0, transformOrigin: 'left center', duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } }));
+      q('[data-a="spin"]').forEach(el => g.to(el, { rotation: 360, transformOrigin: '50% 50%', duration: 16, ease: 'none', repeat: -1 }));
+      q('[data-a="sheet"]').forEach(el => {
+        const t3 = g.timeline({ scrollTrigger: { trigger: el, start: 'top 72%', once: true } });
+        t3.from(el, { rotate: -4, y: 60, autoAlpha: 0, duration: 0.9, ease: 'expo.out' })
+          .from(el.querySelectorAll('[data-a="strike"]'), { scaleX: 0, transformOrigin: 'left center', duration: 0.45, ease: 'power2.inOut' })
+          .from(el.querySelectorAll('[data-a="ink"]'), { autoAlpha: 0, x: -8, duration: 0.45, stagger: 0.3 })
+          .from(el.querySelectorAll('[data-a="grade"]'), { scale: 2.6, autoAlpha: 0, rotate: -40, duration: 0.55, ease: 'back.out(2.2)' });
+      });
+      q('[data-a="bell"]').forEach(el => g.fromTo(el, { left: '0%' }, { left: '100%', ease: 'none', scrollTrigger: { trigger: el.parentNode, start: 'top 80%', end: 'bottom 30%', scrub: 0.6 } }));
+      q('[data-a="drift"]').forEach(el => g.fromTo(el, { xPercent: 4 }, { xPercent: -8, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 1 } }));
+    });
+  }
+  afterNav() { setTimeout(() => { window.scrollTo(0, 0); this.waitGsap(() => { this.animate(); window.scrollTo(0, 0); }); }, 0); }
+  goPage(patch, cb) { this.setState(patch, () => { this.afterNav(); cb && setTimeout(cb, 200); }); }
+  scrollTo(id) {
+    const go = () => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' }); };
+    if (this.state.page !== 'home') this.goPage({ page: 'home' }, go); else go();
+  }
+  setDur(id, h) { this.setState(s => ({ durs: { ...s.durs, [id]: h }, sessionId: null })); }
+  openCourse(id, h, sid) { this.goPage(s => ({ page: 'course', courseId: id, durs: h ? { ...s.durs, [id]: h } : s.durs, sessionId: sid || null, signupDone: false })); }
+  seatsLabel(n) { return n <= 4 ? `Zostały ${n} miejsca` : `Wolne miejsca: ${n}`; }
+  row(x) {
+    const c = this.courses.find(k => k.id === x.c);
+    return { ...x, courseName: c.name, hours: x.h + ' h', seatsLabel: this.seatsLabel(x.seats), seatsShort: x.seats <= 4 ? `${x.seats} miejsca` : `${x.seats} wolnych`, seatsColor: x.seats <= 4 ? this.pal.low : this.pal.ok, pick: () => this.openCourse(x.c, x.h, x.id) };
+  }
+  renderVals() {
+    const P = this.pal, s = this.state, zl = n => n.toLocaleString('pl-PL') + ' zł';
+    const seg = on => ({ bg: on ? P.onBg : P.offBg, fg: on ? P.onFg : P.offFg });
+    const cards = this.courses.map(c => {
+      const d = s.durs[c.id], n = this.sess.find(x => x.c === c.id && x.h === d) || this.sess.find(x => x.c === c.id);
+      return { ...c, price: zl(c.price[d]), count: `${d === 4 ? 4 : 8} modułów · ${d} h`, is4: d === 4, is8: d === 8, bg4: seg(d === 4).bg, fg4: seg(d === 4).fg, bg8: seg(d === 8).bg, fg8: seg(d === 8).fg,
+        set4: () => this.setDur(c.id, 4), set8: () => this.setDur(c.id, 8), open: () => this.openCourse(c.id), nextDate: n ? `${n.day} ${n.mon} · ${n.fmt}` : 'wkrótce' };
+    });
+    const filters = [{ id: 'all', label: 'Wszystkie' }, ...this.courses.map(c => ({ id: c.id, label: c.name }))].map(f => ({ ...f, on: s.filter === f.id, bg: s.filter === f.id ? P.onBg : P.offBg, fg: s.filter === f.id ? P.onFg : P.offFg, pick: () => this.setState({ filter: f.id }, () => setTimeout(() => window.ScrollTrigger && window.ScrollTrigger.refresh(), 50)) }));
+    const rows = this.sess.filter(x => s.filter === 'all' || x.c === s.filter).map(x => this.row(x));
+    const cur = this.courses.find(c => c.id === s.courseId), d = s.durs[cur.id];
+    const cSessions = this.sess.filter(x => x.c === cur.id && x.h === d).map(x => {
+      const on = s.sessionId === x.id;
+      return { ...this.row(x), on, bg: on ? '#141210' : 'transparent', fg: on ? '#F4F1EC' : '#141210', bd: on ? '#141210' : '#D6CFC5', select: () => this.setState({ sessionId: x.id }) };
+    });
+    const selected = this.sess.find(x => x.id === s.sessionId);
+    return {
+      isHome: s.page === 'home', isCourse: s.page === 'course', showPrices: this.props.showPrices ?? true,
+      goHome: () => this.goPage({ page: 'home' }),
+      toCourses: () => this.scrollTo('kursy'), toTerms: () => this.scrollTo('terminy'), toB2b: () => this.scrollTo('firmy'), toTrainers: () => this.scrollTo('trenerzy'), toLead: () => this.scrollTo('lekcja'), toB2bForm: () => this.scrollTo('firmy'),
+      heroNext: this.row(this.sess[0]), logos: [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6],
+      cards, filters, rows, trainers: this.trainers, quotes: this.quotes,
+      faq: this.faqs.map((f, i) => ({ q: f[0], a: f[1], open: s.faq === i, sign: s.faq === i ? '−' : '+', toggle: () => this.setState({ faq: s.faq === i ? -1 : i }) })),
+      leadOpen: !s.leadDone, leadDone: s.leadDone, email: s.email,
+      onEmail: e => this.setState({ email: e.target.value }),
+      submitLead: () => { if (/\S+@\S+\.\S+/.test(s.email)) this.setState({ leadDone: true }); },
+      cur, isZero: cur.id === 'zero', isCode: cur.id === 'code', isCowork: cur.id === 'cowork',
+      cSet4: () => this.setDur(cur.id, 4), cSet8: () => this.setDur(cur.id, 8),
+      cBg4: seg(d === 4).bg, cFg4: seg(d === 4).fg, cBg8: seg(d === 8).bg, cFg8: seg(d === 8).fg,
+      cDurNote: d === 4 ? 'Pół dnia · 4 moduły podstaw' : 'Cały dzień · 8 modułów + warsztat',
+      cModCount: `${d} h`, cPrice: zl(cur.price[d]), cHours: d + ' godzin',
+      cModules: cur.m.slice(0, d === 4 ? 4 : 8).map((m, i) => ({ n: String(i + 1).padStart(2, '0'), t: m[0], d: m[1], extra: i >= 4 })),
+      cFor: cur.for, cOut: cur.out, cSessions, hasSessions: cSessions.length > 0, noSessions: cSessions.length === 0,
+      signupOpen: !s.signupDone, signupDone: s.signupDone, selectedLabel: selected ? `${selected.day} ${selected.mon}, ${selected.fmt}` : '',
+      canSubmit: !!selected, submitSignup: () => { if (selected) this.setState({ signupDone: true }); },
+      others: this.courses.filter(c => c.id !== cur.id).map(c => ({ ...c, open: () => this.openCourse(c.id) }))
+    };
+  }
+}
+</script>
+</body>
+</html>
