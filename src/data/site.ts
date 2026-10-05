@@ -1,3 +1,6 @@
+import type { ImageMetadata } from 'astro';
+import trenerAsia from '../assets/img/trener-asia.webp';
+
 export type Hours = 4 | 8;
 export type CourseId = 'zero' | 'code' | 'cowork';
 
@@ -100,8 +103,15 @@ export const sessions: Session[] = rawSessions.map(([id, course, hours, day, mon
   id, course, hours, day, mon, weekday, time, format, seats,
 }));
 
-export const trainers = [
-  { name: 'Imię Nazwisko', role: 'Claude od zera · Cowork', bio: 'Wdraża Claude w działach sprzedaży i HR. Prowadzi szkolenia od 2023 roku.' },
+export interface Trainer {
+  name: string;
+  role: string;
+  bio: string;
+  photo?: ImageMetadata;
+}
+
+export const trainers: Trainer[] = [
+  { name: 'Asia', role: 'Claude od zera · Cowork', photo: trenerAsia, bio: 'Wdraża Claude w działach sprzedaży i HR. Prowadzi szkolenia od 2023 roku.' },
   { name: 'Imię Nazwisko', role: 'Claude Code', bio: 'Product engineer. Buduje wewnętrzne narzędzia z Claude Code dla zespołów nietechnicznych.' },
   { name: 'Imię Nazwisko', role: 'Szkolenia dla firm', bio: 'Projektuje programy zamknięte pod procesy klienta. Wcześniej konsultant ds. automatyzacji.' },
 ];

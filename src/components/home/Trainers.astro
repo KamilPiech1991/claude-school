@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { trainers } from '../../data/site';
 ---
 
@@ -8,8 +9,22 @@ import { trainers } from '../../data/site';
     {trainers.map((t) => (
       <div class="trainer" data-a="tilt">
         <div class="trainer__photo">
-          <div class="trainer__img"></div>
-          <div class="trainer__cap">portret trenera</div>
+          {t.photo ? (
+            <Image
+              src={t.photo}
+              alt={`${t.name} – ${t.role}`}
+              widths={[360, 560, 840]}
+              sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 400px"
+              format="webp"
+              quality={80}
+              class="trainer__img trainer__img--photo"
+            />
+          ) : (
+            <>
+              <div class="trainer__img"></div>
+              <div class="trainer__cap">portret trenera</div>
+            </>
+          )}
           <div class="trainer__role">{t.role}</div>
         </div>
         <div class="trainer__txt">
@@ -54,6 +69,14 @@ import { trainers } from '../../data/site';
     inset: 0;
     background: repeating-linear-gradient(135deg, var(--stripe-1) 0 10px, var(--stripe-2) 10px 20px);
     transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .trainer__img--photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    background: none;
   }
 
   .trainer:hover .trainer__img {
