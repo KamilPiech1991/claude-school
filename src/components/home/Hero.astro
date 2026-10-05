@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import { courseById, sessions, seatsShort } from '../../data/site';
+import heroPhoto from '../../assets/img/hero-zajecia.webp';
 import type { Theme } from '../../data/theme';
 
 interface Props {
@@ -40,8 +42,18 @@ const stampId = `stampCircle-${theme}`;
 
   <div class="hero__art" data-a="tiltzone">
     <div data-a="card" class="photo" data-depth="0.4">
-      <div data-a="parallax" class="stripes"></div>
-      <div class="photo__cap">zdjęcie: trener przy stole z uczestnikami, ekran z Claude w tle</div>
+      <Image
+        src={heroPhoto}
+        alt="Trener pomaga uczestniczce przy laptopie, w tle ekran z Claude"
+        widths={[480, 720, 960, 1280]}
+        sizes="(max-width: 1000px) 100vw, 720px"
+        format="webp"
+        quality={80}
+        loading="eager"
+        fetchpriority="high"
+        data-a="parallax"
+        class="photo__img"
+      />
     </div>
 
     <div aria-hidden="true" class="stamp" data-depth="1.6">
@@ -193,6 +205,15 @@ const stampId = `stampCircle-${theme}`;
     position: absolute;
     inset: -40px 0;
     background: repeating-linear-gradient(135deg, var(--stripe-1) 0 10px, var(--stripe-2) 10px 20px);
+  }
+
+  .photo__img {
+    position: absolute;
+    inset: -40px 0;
+    width: 100%;
+    height: calc(100% + 80px);
+    object-fit: cover;
+    object-position: 40% 50%;
   }
 
   .photo__cap {

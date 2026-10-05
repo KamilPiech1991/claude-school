@@ -1,5 +1,6 @@
 import type { ImageMetadata } from 'astro';
 import trenerAsia from '../assets/img/trener-asia.webp';
+import kursZero from '../assets/img/kurs-zero-zajecia.webp';
 
 export type Hours = 4 | 8;
 export type CourseId = 'zero' | 'code' | 'cowork';
@@ -15,6 +16,8 @@ export interface Course {
   for: string[];
   out: string[];
   defaultHours: Hours;
+  /** Zdjęcie z zajęć na stronie kursu */
+  photo?: ImageMetadata;
 }
 
 export interface Session {
@@ -31,7 +34,7 @@ export interface Session {
 
 export const courses: Course[] = [
   {
-    id: 'zero', no: '01', name: 'Claude od zera', defaultHours: 8,
+    id: 'zero', no: '01', name: 'Claude od zera', defaultHours: 8, photo: kursZero,
     short: 'Pierwszy kontakt z Claude, po którym od razu oddajesz mu realną pracę: maile, raporty, dokumenty.',
     lead: 'Uczysz się na własnych plikach i zadaniach. Wychodzisz ze skonfigurowanym środowiskiem pracy i zestawem poleceń, których użyjesz w poniedziałek rano.',
     price: { 4: 690, 8: 1290 },

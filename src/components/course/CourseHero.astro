@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import Seg from '../Seg.astro';
 import type { Course } from '../../data/site';
 import { href, type Theme } from '../../data/theme';
@@ -34,8 +35,24 @@ const { course, theme } = Astro.props;
 
   <div class="chero__art" data-a="tiltzone">
     <div data-a="card" class="chero__photo" data-depth="0.4">
-      <div data-a="parallax" class="chero__stripes"></div>
-      <div class="chero__cap">zdjęcie z zajęć</div>
+      {course.photo ? (
+        <Image
+          src={course.photo}
+          alt={`Zajęcia kursu ${course.name}`}
+          widths={[480, 720, 960, 1280]}
+          sizes="(max-width: 1000px) 100vw, 760px"
+          format="webp"
+          quality={80}
+          loading="eager"
+          data-a="parallax"
+          class="chero__img"
+        />
+      ) : (
+        <>
+          <div data-a="parallax" class="chero__stripes"></div>
+          <div class="chero__cap">zdjęcie z zajęć</div>
+        </>
+      )}
     </div>
     <div data-a="card" class="chero__card" data-depth="1.2">
       <div data-a="float" class="win">
@@ -174,6 +191,15 @@ const { course, theme } = Astro.props;
     position: absolute;
     inset: -40px 0;
     background: repeating-linear-gradient(135deg, var(--stripe-1) 0 10px, var(--stripe-2) 10px 20px);
+  }
+
+  .chero__img {
+    position: absolute;
+    inset: -40px 0;
+    width: 100%;
+    height: calc(100% + 80px);
+    object-fit: cover;
+    object-position: 55% 35%;
   }
 
   .chero__cap {
